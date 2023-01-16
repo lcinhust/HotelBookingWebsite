@@ -4,7 +4,10 @@
 
 # Students:
 
- Nguyễn Chí Long - 20210553 - ICT-02 K66
- Đinh Việt Quang -
- Ngô Xuân Bách -
- Lê Xuân Hiếu -
+ Nguyễn Chí Long - 20210553 - ICT-02 K66 <space><space>
+
+ Đinh Việt Quang - <space><space>
+
+ Ngô Xuân Bách - <space><space>
+
+ Lê Xuân Hiếu - <space><space>
