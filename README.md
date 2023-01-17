@@ -2,7 +2,8 @@
 
 # HotelBookingWebsite - ICT K66 - HUST
 
-### Member Assignment
+### Member 's Job
+
 
 <table>
     <tbody>
