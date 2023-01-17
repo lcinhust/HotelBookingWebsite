@@ -4,7 +4,6 @@
 
 ### Member 's Job
 
-
 <table>
     <tbody>
         <tr>
