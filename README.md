@@ -1,6 +1,6 @@
-# HotelBookingWebsite
+# Database Lab (IT3290E) Project
 
-# An IT3290E Project
+# HotelBookingWebsite - ICT K66 - HUST
 
 ### Member Assignment
 
