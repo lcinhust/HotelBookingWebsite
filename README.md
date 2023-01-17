@@ -8,6 +8,6 @@
 
  Đinh Việt Quang - 20215235 - ICT 02 - K66 <space><space>
 
- Ngô Xuân Bách - 1234<space><space>
+ Ngô Xuân Bách - <space><space>
 
  Lê Xuân Hiếu - <space><space>
