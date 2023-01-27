@@ -1,0 +1,26 @@
+const express = require('express');
+const settings = require(`./settings`);
+const generalRouter = require('./routes/general');
+const mysql = require('mysql');
+const userRepo = require('./repositories/users');
+
+
+const app = express();
+
+app.use(express.static('public'));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(generalRouter);
+
+const connection = mysql.createConnection(settings.database);
+app.locals.connection = connection;
+
+app.get(`/users`,async (req,res)=>{
+  const [records] = await userRepo.listAllUsers(req,res);
+  console.log(records[0].id);
+});
+
+
+app.listen(settings.APIServerPort, () => {
+  console.log(`Example app listening on port ${settings.APIServerPort}`)
+})
