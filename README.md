@@ -26,7 +26,7 @@
             <td align="center"> 20215235&nbsp;&nbsp;&nbsp;</td>
             <td>
                 <ul>
-                <li></li>
+                <li>UI design</li>
                 <li></li>
                 </ul>
             </td>
