@@ -48,13 +48,13 @@
 <body>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
-            <form action="">
+            <form method="POST" action="/signup" >
                 <h1 style="padding-top: 15px"> Create Account</h1>
-                <input type="text" id="fnm" placeholder="First Name">
-                <input type="text" id="lnm" placeholder="Last Name">
-                <input type="text" id="em" placeholder="Email">
+                <input type="text" id="fnm" placeholder="First Name" name="fname">
+                <input type="text" id="lnm" placeholder="Last Name" name="lname">
+                <input type="text" id="em" placeholder="Email" name="email">
                 <div class="password-container">
-                    <input type="password" placeholder="Password..." id="password">
+                    <input type="password" placeholder="Password..." id="password" name="password">
                     <i class="fa-solid fa-eye" id="eye"></i>
                 </div>
                 <script>
@@ -73,11 +73,11 @@
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form action="#">
+            <form method="post" action="/signin">
                 <h1 style="padding-bottom: 15px"> Login Now</h1>
                 <input type="email" name="email" placeholder="Email">
                 <div class="password-container">
-                    <input type="password" placeholder="Password..." id="password">
+                    <input type="password" placeholder="Password..." id="password" name="password">
                     <!-- <i class="fa-solid fa-eye" id="eye"></i> -->
                 </div>
                 <!-- <script>
@@ -90,7 +90,7 @@
                     })
                 </script> -->
                 <a href="#" style="padding-left:150px; font-weight: bold"> Forgot Your Password?</a>
-                <a href="/index"><button style="margin-top: 10px"> Let Me In...</button></a>
+                <a><button style="margin-top: 10px"> Let Me In...</button></a>
                 <h5>New to here! <a class="ghost" id="signUp" style="color:blue;"><u>Sign Up</u></a></h5>
             </form>
         </div>
