@@ -1,13 +1,11 @@
-const {connection} = require('../index')
-async function getUserByEmail(email) {
-    try{
-        const record = await connection.query('select * from account where email = ?',email)
-        return record;
-    }catch{
-        
-    }
+// const app = require('../index').app;
+// const connection = app.locals.connection;
+async function getAllAccount(req,res) {
+    const records = await connection.query('select * from account')
+    console.log(records);
+    return records;
 }
 
 module.exports = {
-    getUserByEmail
+    getAllAccount
 }

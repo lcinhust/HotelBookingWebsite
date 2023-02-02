@@ -5,12 +5,18 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const userRepo = require('./Controllers/users');
 const usersRouter = require('./routes/users');
+const cookieSession = require('cookie-session');
 
 
 const app = express();
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cookieSession({
+    keys: ['lkasld235j']
+  })
+);
 // app.use(express.json());
 app.use(generalRouter);
 app.use(usersRouter);
@@ -23,4 +29,4 @@ app.listen(settings.APIServerPort, () => {
   console.log(`Example app listening on port ${settings.APIServerPort}`)
 })
 
-module.exports = connection
+// module.exports = app;
