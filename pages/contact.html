@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- navbar -->
+    <div class="container">
+        <nav class="navbar">
+            <a class="logo" href="/index">Hotel name</a>
+            <input type="checkbox" id="check">
+            <label for="check">
+                <i class="fas fa-bars" id="open"></i>
+                <i class="fas fa-times" id="close"></i>
+            </label>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/rooms" class="nav-link">Rooms</a></li>
+                <li class="nav-item"><a href="/restaurant" class="nav-link">Restaurant</a></li>
+                <li class="nav-item"><a href="/spa" class="nav-link">Service</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="/booking" class="nav-link book-btn">Book Now</a></li>
+                <!-- <li class="nav-item"><a href="/loginform" class="nav-link book-btn">Login</a></li> -->
+            </ul>
+        </nav>
+    </div>
+
+    <!-- contact section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <div>
+                        <h3>How Can We Help?</h3>
+                        <p>If you have further questions about our [Hotel name], 
+                            would like to make arrangements for an upcoming stay or 
+                            have a comment or suggestion about a recent visit, 
+                            please contact our sale team.</p>
+                    </div>
+                    <div>
+                        <h3>Address</h3>
+                        <p>1, Dai Co Viet st,</p>
+                        <p>Hai Ba Trung,</p>
+                        <p>Hanoi</p>
+                    </div>
+                    <div>
+                        <h3>Reservations</h3>
+                        <p>09812345678</p>
+                        <p>book@a+databaseproject.com</p>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <form>
+                        <input type="text" placeholder="Name" required>
+                        <input type="email" placeholder="Email Address" required>
+                        <textarea row="20" cols="20" placeholder="Your Message" required></textarea>
+                        <button class="btn btn-white">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer section -->
+    <footer>
+        <div class="container">
+            <div class="back-to-top">
+                <a href="#contact"><i class="fas fa-chevron-up"></i></a>
+            </div>
+            <div class="footer__content row">
+                <div class="col-3">
+                    <h4>About</h4>
+                    <p>We are a part of chain of luxury hotels which extends all over the world. 
+                        We provide a luxorious stay with various value added and free services which will make you visit us over and over again.
+                    </p>
+                </div>
+                <div class="col-3">
+                    <h4>Payment Methods</h4>
+                    <p>Pay any way you choose, we support all payment options</p>
+                    <ul class="payment-methods">
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-paypal"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-cc-visa"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-cc-mastercard"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-apple-pay"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-3">
+                    <h4>Get Social</h4>
+                    <p>Follow us on social media and keep in touch with us.</p>
+                    <ul class="social-icons">
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fab fa-tripadvisor"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
