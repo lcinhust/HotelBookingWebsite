@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- edit profile here -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <a class="logo" href="/index">Hotel name</a>
+            <input type="checkbox" id="check">
+            <label for="check">
+                <i class="fas fa-bars" id="open"></i>
+                <i class="fas fa-times" id="close"></i>
+            </label>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/rooms" class="nav-link">Rooms</a></li>
+                <li class="nav-item"><a href="/restaurant" class="nav-link">Restaurant</a></li>
+                <li class="nav-item"><a href="/spa" class="nav-link">Service</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+                <!-- <li class="nav-item"><a href="/editProfile" class="nav-link">Edit pf</a></li> -->
+                <li class="nav-item"><a href="/booking" class="nav-link book-btn">Book Now</a></li>
+                <%if (!locals.session.userId) { %>
+                    <li class="nav-item"><a href="/loginform" class="nav-link book-btn">Login</a></li>
+                <% }else{ %>
+                    <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="nav-link book-btn" style="cursor: pointer;">User</button>
+                        <div class="dropdown-content">
+                        <a class="nav-link" href="/profile">Profile</a>
+                        <a class="nav-link" href="/logout" >Logout</a>
+                        </div>
+                    </div>
+                    </li>
+                <%}%>
+            </ul>
+        </nav>
+    </div>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius"
+                    alt="User-Profile-Image">
+                    <div>
+                        <h3>First name</h3>
+                        <p></p>
+                    </div>
+                    <div>
+                        <h3>Last name</h3>
+                        <p></p>
+                    </div>
+                    <div>
+                        <h3>Email</h3>
+                        <p></p>
+                    </div>
+                    <div>
+                        <h3>Date of birth</h3>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <table>
+                    <thead> 
+                        <tr style="font-size: 20px;"> 
+                            <th>ID</th>
+                            <th>Room number</th>
+                            <th>Arrival Date</th>
+                            <th>Departure Date</th>
+                        </tr>
+                    </thead> 
+                    <tbody>
+                        <tr>
+                            <td data-label="ID"></td> <!--insert into row values -->
+                            <td data-label="RoomNum"></td>
+                            <td data-label="Arrival date"></td>
+                            <td data-label="Departure Date"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <a href="/editProfile"><button class="nav-link book-btn" style="cursor: pointer;">Edit profile</button></a>
+            <a href="/editPassword"><button class="nav-link book-btn" style="cursor: pointer;">Edit password</button></a>
+        </div>
+    </section>
+</body>

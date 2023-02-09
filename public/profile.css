@@ -1,0 +1,357 @@
+@font-face {
+    font-family: "Herr Von Muellerhoff";
+    src: url("textfont/HerrVonMuellerhoff-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Josefin Sans Regular";
+    src: url("textfont/JosefinSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Josefin Sans Light";
+    src: url("textfont/JosefinSans-Light.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "SourceSansPro Regular";
+    src: url("textfont/SourceSansPro-Regular.ttf") format("truetype");
+}
+
+:root {
+    --main-font-1: "Josefin Sans Regular", sans-serif;
+    --main-font-2: "Josefin Sans Light", sans-serif;
+    --secondary-font: "SourceSansPro Regular", sans-serif;
+    --main-color: #455d58;
+    --white-pinkish-color: #FAF2F7;
+    --white-color: #fff;
+}
+
+body {
+    margin-top: 20px;
+    background-color: #f2f6fc;
+    color: #69707a;
+}
+
+.img-account-profile {
+    height: 10rem;
+}
+
+.rounded-circle {
+    border-radius: 50% !important;
+}
+
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+
+.card .card-header {
+    font-weight: 500;
+}
+
+.card-header:first-child {
+    border-radius: 0.35rem 0.35rem 0 0;
+}
+
+.card-header {
+    padding: 1rem 1.35rem;
+    margin-bottom: 0;
+    background-color: rgba(33, 40, 50, 0.03);
+    border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+
+.logo {
+    font-family: var(--main-font-1);
+    font-size: 2.4rem;
+    color: var(--main-color);
+}
+
+#check {
+    display: none;
+}
+
+.form-control, .dataTable-input {
+    display: block;
+    width: 100%;
+    padding: 0.875rem 1.125rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1;
+    color: #69707a;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #c5ccd6;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.navbar {
+    background-color: var(--white-pinkish-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    height: 7.5rem;
+}
+
+.logo {
+    font-family: var(--main-font-1);
+    font-size: 2.4rem;
+    color: var(--main-color);
+}
+
+.nav-list {
+    display: flex;
+}
+
+.nav-item:not(:last-child) {
+    margin-right: 3.5rem;
+}
+
+.nav-link {
+    border: none;
+    outline: none;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    color: var(--main-color);
+    letter-spacing: .1rem;
+    padding: 1rem 2rem;
+    position: relative;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: .2rem;
+    width: 100%;
+    background-color: rgba(69, 93, 88, 0.65);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .4s linear;
+}
+
+.nav-link:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+body {
+    background-color: #f9f9fa
+}
+
+.padding {
+    padding: 3rem !important
+}
+
+.user-card-full {
+    overflow: hidden;
+}
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+    box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+    border: none;
+    margin-bottom: 30px;
+}
+
+.m-r-0 {
+    margin-right: 0px;
+}
+
+.m-l-0 {
+    margin-left: 0px;
+}
+
+.user-card-full .user-profile {
+    border-radius: 5px 0 0 5px;
+}
+
+.bg-c-lite-green {
+        background: -webkit-gradient(linear, left top, right top, from(#f29263), to(#ee5a6f));
+    background: linear-gradient(to right, #ee5a6f, #f29263);
+}
+
+.user-profile {
+    padding: 20px 0;
+}
+
+.card-block {
+    padding: 1.25rem;
+}
+
+.m-b-25 {
+    margin-bottom: 25px;
+}
+
+.img-radius {
+    border-radius: 5px;
+}
+
+
+ 
+h6 {
+    font-size: 14px;
+}
+
+.card .card-block p {
+    line-height: 25px;
+}
+
+@media only screen and (min-width: 1400px){
+p {
+    font-size: 14px;
+}
+}
+
+.card-block {
+    padding: 1.25rem;
+}
+
+.b-b-default {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+.p-b-5 {
+    padding-bottom: 5px !important;
+}
+
+.card .card-block p {
+    line-height: 25px;
+}
+
+.m-b-10 {
+    margin-bottom: 10px;
+}
+
+.text-muted {
+    color: #919aa3 !important;
+}
+
+.b-b-default {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.f-w-600 {
+    font-weight: 600;
+}
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+.m-t-40 {
+    margin-top: 20px;
+}
+
+.p-b-5 {
+    padding-bottom: 5px !important;
+}
+
+.m-b-10 {
+    margin-bottom: 10px;
+}
+
+.m-t-40 {
+    margin-top: 20px;
+}
+
+.user-card-full .social-link li {
+    display: inline-block;
+}
+
+.user-card-full .social-link li a {
+    font-size: 20px;
+    margin: 0 10px 0 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+
+
+
+@media screen and (max-width: 1000px) {
+    .nav-item:not(:last-child) {
+        margin-right: 2rem;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .nav-item:not(:last-child) {
+        margin-right: 0;
+    }
+
+    p {
+        font-size: 1.7rem;
+    }
+
+    label {
+        display: block;
+    }
+
+    label #open {
+        display: block;
+    }
+
+    .nav-list {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background-color: var(--main-color);
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        z-index: 1000;
+        transition: all .5s;
+    }
+
+    #check:checked~.nav-list {
+        left: 0;
+    }
+
+    #check:checked~label #open {
+        display: none;
+    }
+
+    #check:checked~label #close {
+        display: block;
+        position: relative;
+        z-index: 100000;
+    }
+
+    .nav-item {
+        display: block;
+        margin: 2.5rem 0;
+    }
+
+    .nav-link {
+        color: var(--white-pinkish-color);
+    }
+
+    .book-btn {
+        border: .2rem solid transparent;
+        background-color: transparent;
+        transition: all .3s;
+    }
+
+    .book-btn:hover {
+        border: .2rem solid var(--white-color);
+        color: var(--white-pinkish-color);
+        opacity: 1;
+    }
+
+    footer .row {
+        flex-direction: column;
+    }
+}
