@@ -30,7 +30,7 @@ router.post('/signin',(req,res)=>{
         db.query(`select * from account where email='${email}'`,(err,results)=>{
             if (err) throw err;
             if (results.length>0){
-                const user=results[0];
+                const user = results[0];
                 bcrypt.compare(password,user.password, (err,isMatch)=>{
                     if (err) throw err;
                     if (isMatch){

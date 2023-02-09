@@ -5,6 +5,7 @@ const session=require('express-session');
 const bodyParser = require('body-parser');
 const usersRouter = require('./routes/users');
 const generalRouter = require('./routes/general');
+const bookingRouter = require('./routes/booking');
 
 
 const app = express();
@@ -23,9 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(generalRouter);
 app.use(usersRouter);
-
-
-
+app.use(bookingRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${process.env.PORT}`)
