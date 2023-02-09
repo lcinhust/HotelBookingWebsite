@@ -47,9 +47,6 @@ router.post('/signin',(req,res)=>{
     }
 })
 
-router.get('/logout',(req,res)=>{
-    req.session.destroy();
-    res.redirect('/loginform')
-})
+
 
 module.exports = router;
