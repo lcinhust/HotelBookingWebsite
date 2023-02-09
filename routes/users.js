@@ -1,53 +1,51 @@
 const express = require('express');
-const userController = require('../Controllers/users')
 const router = express.Router();
+const db=require('../database');
+const bcrypt=require('bcrypt')
+
 
 router.post('/signup', async (req,res)=>{
-    const {email,password,fname,lname,phone,age} = req.body;
-    connection = req.app.locals.connection;
-    connection.query('select * from account where email = ?',email,(err,result)=>{
-        if(err){
-            res.json(err)
-        }else{
-            if(result.length > 0){
-                res.json({error: 'Email in use'});
-            }
-        }
-    })
-    connection.query(`insert into account (email,password,type_of_account)
-    values(?,?,'booker')`,[email,password],(err,result)=>{
-        if(err){
-            res.json(err)
-        }else{
-            req.session.email = email;
-            res.redirect('/booking');
-        }
-    })
-})
-
-router.post('/signin', async (req,res)=>{
     const {email,password} = req.body;
-    connection = req.app.locals.connection;
-    connection.query('select * from account where email = ?',email,(err,result)=>{
-        if(err){
-            res.json(err)
-        }else{
-            if(result.length > 0){
-                if(password === result[0].password){
-                    res.redirect('/booking');
-                }else{
-                    res.json({error: 'Invalid password'});
-                }
-            }else{
-                res.json({error: 'Email not found'});
-            }
+    let hashedPassword= await bcrypt.hash(password,10);
+    db.query(`select * from account where email='${email}'`,(err,results)=>{
+        if (err) throw err;
+        if (results.length>0)
+        {
+            res.status(404).json({message: 'Email already registered'});
         }
+        else{
+            db.query(`insert into account (email,password) values ('${email}','${hashedPassword}')`, (err)=>{
+                if (err) throw err;
+                res.redirect('/index');
+            })
+        }        
     })
 })
 
-router.get('/accounts',async (req,res)=>{
-    const records = await userController.getAllAccount(req,res);
-    // console.log(a)
+router.post('/signin',(req,res)=>{
+    const {email,password} = req.body;
+    if (!email | !password)
+        res.status(404).json({message: 'Please enter all fields'});
+    else{
+        db.query(`select * from account where email='${email}'`,(err,results)=>{
+            if (err) throw err;
+            if (results.length>0){
+                const user = results[0];
+                bcrypt.compare(password,user.password, (err,isMatch)=>{
+                    if (err) throw err;
+                    if (isMatch){
+                        session=req.session;
+                        session.userId=user.id;
+                        res.redirect('/booking');
+                    } 
+                    else res.status(404).json({message: 'password is not correct'});
+                })
+            }
+            else res.status(404).json({message: 'email is not registered'});
+        })
+    }
 })
+
+
 
 module.exports = router;

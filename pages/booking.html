@@ -164,28 +164,27 @@
                                     <div>
                                         <select name="roomtype" id="room" required style="margin-top: 10px;">
                                             <option selected disabled value="-1">Pick a room</option>
-                                            <option value="1">type1</option>
-                                            <option value="2">type2</option>
-                                            <option value="3">type3</option>
-                                            <option value="5">type4</option>
-                                            <option value="4">type5</option>
-                                            <option value="6">type6</option>
+                                            <option value="1">Single</option>
+                                            <option value="2">Double</option>
+                                            <option value="3">Triple</option>
+                                            <option value="4">Quad</option>
+                                            <option value="5">President</option>
                                         </select>
                                     </div>
                                 </li>
                                 <br>
 
-                                <!-- guest num -->
+                                <!-- adult num -->
                                 <li>
                                     <span style="color: #3e61a0; font-size: 2rem;">Number Of Adults *</span>
                                     <div>
-                                        <select name="guest" id="guest" required style="margin-top: 10px;">
+                                        <select name="adultNum" id="adult" required style="margin-top: 10px;">
                                             <option selected disabled value="-1">Number of Adults</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
-                                            <option value="5">4</option>
-                                            <option value="4">5</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
                                             <option value="6">6</option>
                                         </select>
                                     </div>
@@ -196,14 +195,14 @@
                                 <li>
                                     <span style="color: #3e61a0; font-size: 2rem;">Number Of Children *</span>
                                     <div>
-                                        <select name="guest" id="children" required style="margin-top: 10px;">
+                                        <select name="childrenNum" id="children" required style="margin-top: 10px;">
                                             <option selected disabled value="-1">Number of Children</option>
                                             <option value="0">0</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
-                                            <option value="5">4</option>
-                                            <option value="4">5</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
                                             <option value="6">6</option>
                                         </select>
                                     </div>
@@ -215,7 +214,7 @@
                                     <span style="color: #3e61a0; font-size: 2rem;" >Arrival Date & Time *</span>
                                     <div>
                                     <span>
-                                        <select aria-label="Day" id="day" title="Day" autocomplete="on" required style="margin-top: 10px;">
+                                        <select aria-label="Day" name="arrivalDay" id="day" title="Day" autocomplete="on" required style="margin-top: 10px;">
                                             <option value="-1" selected disabled="">Day</option><option value="1">1</option><option
                                                 value="2">2</option><option value="3">3</option><option value="4">4</option><option
                                                 value="5">5</option><option value="6">6</option><option value="7">7</option><option
@@ -232,7 +231,7 @@
                                                 value="28">28</option><option value="29">29</option><option
                                                 value="30">30</option><option value="31">31</option>
                                         </select>
-                                        <select aria-label="Month" id="month" title="Month"
+                                        <select name="arrivalMonth" aria-label="Month" id="month" title="Month"
                                                 autocomplete="on" required>
                                             <option value="-1" selected disabled>Month</option><option
                                                 value="1">Jan</option><option value="2">Feb</option><option
@@ -242,37 +241,10 @@
                                                 value="9">Sep</option><option value="10">Oct</option><option
                                                 value="11">Nov</option><option value="12">Dec</option>
                                         </select>
-                                        <select aria-label="Year" id="year" title="Year"
+                                        <select name="arrivalYear" aria-label="Year" id="year" title="Year"
                                                 autocomplete="on" required>
                                             <option value="-1" selected disabled="">Year</option><option
                                                 value="2023">2023</option>
-                                        </select>
-                                    </span>
-
-                                        <span class="date-separate">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-                                        <select class="currentTime" id="hour" required>
-                                            <option value="-1" selected disabled>Hour</option>
-                                            <option value="1"> 1 </option>
-                                            <option value="2"> 2 </option>
-                                            <option value="3"> 3 </option>
-                                            <option value="4"> 4 </option>
-                                            <option value="5"> 5 </option>
-                                            <option value="6"> 6 </option>
-                                            <option value="7"> 7 </option>
-                                            <option value="8"> 8 </option>
-                                            <option value="9"> 9 </option>
-                                            <option value="10"> 10 </option>
-                                            <option value="11"> 11 </option>
-                                            <option value="12"> 12 </option>
-                                        </select>
-                                        <span class="date-separate">&nbsp;:</span>
-
-                                        <span style="vertical-align:top">
-                                        <select id="timePeriod" required style="margin-top: 10px;">
-                                            <option value="-1" selected disabled>AM & PM</option>
-                                            <option value="AM"> AM </option>
-                                            <option value="PM"> PM </option>
                                         </select>
                                     </span>
                                     </div>
@@ -284,7 +256,7 @@
                                     <span style="color: #3e61a0; font-size: 2rem;">Departure Date & Time *</span>
                                     <div>
                                     <span>
-                                        <select aria-label="Day"  id="departure_day" title="Day"
+                                        <select name="departureDay" aria-label="Day"  id="departure_day" title="Day"
                                                 autocomplete="on" required style="margin-top: 10px;">
                                             <option value="-1" selected disabled="">Day</option><option value="1">1</option><option
                                                 value="2">2</option><option value="3">3</option><option value="4">4</option><option
@@ -302,7 +274,7 @@
                                                 value="28">28</option><option value="29">29</option><option
                                                 value="30">30</option><option value="31">31</option>
                                         </select>
-                                        <select aria-label="Month" id="departure_month" title="Month"
+                                        <select name="departureMonth" aria-label="Month" id="departure_month" title="Month"
                                                 autocomplete="on" required>
                                             <option value="-1" selected disabled>Month</option><option
                                                 value="1">Jan</option><option value="2">Feb</option><option
@@ -312,38 +284,13 @@
                                                 value="9">Sep</option><option value="10">Oct</option><option
                                                 value="11">Nov</option><option value="12">Dec</option>
                                         </select>
-                                        <select aria-label="Year" id="departure_year" title="Year"
+                                        <select name="departureYear" aria-label="Year" id="departure_year" title="Year"
                                                 autocomplete="on" required>
                                             <option value="-1" selected disabled="">Year</option><option
                                                 value="2023">2023</option>
                                         </select>
                                     </span>
 
-                                        <span class="date-separate">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                        <select class="currentTime" id="departure_hour" required style="margin-top: 10px;">
-                                            <option value="-1" selected disabled>Hour</option>
-                                            <option value="1"> 1 </option>
-                                            <option value="2"> 2 </option>
-                                            <option value="3"> 3 </option>
-                                            <option value="4"> 4 </option>
-                                            <option value="5"> 5 </option>
-                                            <option value="6"> 6 </option>
-                                            <option value="7"> 7 </option>
-                                            <option value="8"> 8 </option>
-                                            <option value="9"> 9 </option>
-                                            <option value="10"> 10 </option>
-                                            <option value="11"> 11 </option>
-                                            <option value="12"> 12 </option>
-                                        </select>
-                                        <span class="date-separate">&nbsp;:</span>
-
-                                        <span style="vertical-align:top">
-                                        <select id="timeperiodDeparture" required style="margin-top: 10px;">
-                                            <option value="-1" selected disabled>AM & PM</option>
-                                            <option value="AM"> AM </option>
-                                            <option value="PM"> PM </option>
-                                        </select>
-                                    </span>
                                     </div>
                                 </li>
                                 <br>
