@@ -16,7 +16,17 @@ router.post('/signup', async (req,res)=>{
         else{
             db.query(`insert into account (email,password) values ('${email}','${hashedPassword}')`, (err)=>{
                 if (err) throw err;
-                res.redirect('/index');
+                const {fname,lname,phone,dob} = req.body;
+                
+                db.query(`select id from account where email='${email}'`,(err,results)=>{
+                    if (err) throw err;
+                    const id=results[0].id;
+                    db.query(`insert into booker values (${id},'${fname}','${lname}','${dob}','${phone}')`, (err)=>{
+                        if (err) throw err;
+                        res.redirect('/index');
+                    })
+                })
+                
             })
         }        
     })

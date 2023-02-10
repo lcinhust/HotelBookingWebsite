@@ -46,13 +46,22 @@
             <div class="row">
                         <div class="col-2">
                             <h3>Account Details</h3>
+                            <% if (message) { %>
+                                <div class="alert alert-info"><%= message %></div>
+                            <% } %>
                             <form method="POST" action="/editProfile">
                                 <!-- Form Row-->
-                                <input type="text" placeholder="First Name" name="fname" required>
-                                <input type="text" placeholder="Last Name" name="lname" required>
-                                <input type="email" placeholder="Email Address" name="email" required>
-                                <input type="phone" placeholder="Phone Number" name="phone" required>
-                                <input type="date" placeholder="Date of birth" name="dob" required>
+                                <input type="hidden"  name="id" value="<%= userData.id%>" >
+                                <input type="text" placeholder="First Name" name="fname" value="<%= userData.first_name%>" required>
+                                <input type="text" placeholder="Last Name" name="lname" value="<%= userData.last_name%>" required>
+                                <input type="email" placeholder="Email Address" name="email" value="<%= userData.email%>" required>
+                                <input type="phone" placeholder="Phone Number" name="phone" value="<%= userData.phone%>" required>
+                                <% let dob=userData.birth_date %>
+                                <%const date=dob.getDate()%>
+                                <%const month=dob.getMonth()+1%>
+                                <%const year=dob.getFullYear()%>
+                                <%const dateFormat = [year,(month>9 ? '' : '0') + month,(date>9 ? '' : '0') + date].join('-')%>
+                                <input type="date" placeholder="Date of birth" name="dob" value="<%= dateFormat %>" required>
                                 <!-- Save changes button-->
                                 <a><button class="btn btn-primary">Save changes</button></a>
                             </form>
