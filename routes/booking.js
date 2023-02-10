@@ -2,7 +2,13 @@ const express = require('express');
 const router = express.Router();
 const db = require('../database');
 
-async function getRoomsByCapacity(array, cap) {
+/**
+ * It returns a promise that resolves to the value of the room number.
+ * @param array - array of rooms
+ * @param cap - capacity of the room
+ * @returns 1. The first time it is called, it returns the number of the first room.
+ */
+async function getRoomsByCapacity(array, cap) { 
     let response;
     try {
         response = await new Promise((resolve, reject) => {
@@ -24,6 +30,12 @@ async function getRoomsByCapacity(array, cap) {
     return response;
 }
 
+/**
+ * It updates the status of a room in the database to 1 (occupied) if the room number is equal to the
+ * room number passed to the function (only for choosing new rooms, will be changed to 0 by the next function).
+ * @param roomNumber - the room number that the user wants to book
+ * @returns The response is being returned.
+ */
 async function updateRoomStatus(roomNumber) {
     let response;
     try {
@@ -41,6 +53,11 @@ async function updateRoomStatus(roomNumber) {
     return response;
 }
 
+/**
+ * Change all rooms 
+ * @param rooms
+ * @returns The response is the result of the query.
+ */
 async function resetRoomsStatus(rooms) {
     let response;
     try {
@@ -95,6 +112,9 @@ router.post('/booking', async (req, res) => {
         await updateRoomStatus(roomNumber2)
             .then(() => {
                 res.status(200).json(rooms);
+            })
+            .then(() => {
+                resetRoomsStatus(rooms);
             });
     }
     else if (capacity >= 6) { // 3 rooms
@@ -109,6 +129,9 @@ router.post('/booking', async (req, res) => {
         await updateRoomStatus(roomNumber3)
             .then(() => {
                 res.status(200).json(rooms);
+            })
+            .then(() => {
+                resetRoomsStatus(rooms);
             });
     }
 })
