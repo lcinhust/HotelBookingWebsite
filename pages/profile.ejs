@@ -52,19 +52,27 @@
                     <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" style = "position:relative; left:290px;" alt="User-Profile-Image">
                     <div style = "position:relative; left:290px;">
                         <h3>First name</h3>
-                        <p>ssdsdfsdf</p> <!-- insert data here -->
+                        <p><%= userData.first_name%></p> <!-- insert data here -->
                     </div>
                     <div style = "position:relative; left:290px;">
                         <h3>Last name</h3>
-                        <p>svvsvvv</p>
+                        <p><%= userData.last_name%></p>
                     </div>
                     <div style = "position:relative; left:290px;">
                         <h3>Email</h3>
-                        <p>fsfsdfsd</p>
+                        <p><%= userData.email%></p>
                     </div>
                     <div style = "position:relative; left:290px;">
                         <h3>Date of birth</h3>
-                        <p>sfdfsd</p>
+                        <p><% let dob=userData.birth_date %>
+                            <%const date=dob.getDate()%>
+                            <%const month=dob.getMonth()+1%>
+                            <%const year=dob.getFullYear()%>
+                            <%= date + "/" + month + "/" + year%></p>
+                    </div>
+                    <div style = "position:relative; left:290px;">
+                        <h3>Phone</h3>
+                        <p><%= userData.phone%></p>
                     </div>
                 </div>
             </div>
@@ -90,8 +98,8 @@
                     </tbody>
                 </table>
             </div>
-            <a href="/editProfile"><button class="nav-link book-btn" style="cursor: pointer;">Edit profile</button></a>
-            <a href="/editPassword"><button class="nav-link book-btn" style="cursor: pointer;">Edit password</button></a>
+            <a href="/editProfile?id=<%= userData.id %>"><button class="nav-link book-btn" style="cursor: pointer;">Edit profile</button></a>
+            <a href="/editPassword?id=<%= userData.id %>"><button class="nav-link book-btn" style="cursor: pointer;">Edit password</button></a>
         </div>
     </section>
     <footer>

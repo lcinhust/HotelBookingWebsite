@@ -2,7 +2,7 @@ const express = require('express');
 // const ejs = require('ejs');
 require('dotenv').config();
 const session=require('express-session');
-
+const flash=require('connect-flash');
 const bodyParser = require('body-parser');
 const usersRouter = require('./routes/users');
 const generalRouter = require('./routes/general');
@@ -17,6 +17,8 @@ app.use(session({
     cookie: { maxAge: oneDay },
     resave: false,
 }));
+
+app.use(flash());
 
 app.use(express.static('public'));
 app.set("view engine", "ejs");
