@@ -374,6 +374,29 @@ label #close {
     transform: scaleX(0);
 }
 
+table {
+	border-collapse: collapse;
+	display: inline-block;
+	text-align: center;
+	border-top: 1px solid #888;
+}
+table thead {
+	background: #0e1211;
+}
+table tr:nth-child(odd) {
+	background: #66857f;
+}
+table tr:nth-child(even) {
+	background: #3d524e;
+}
+table th, table td {
+	padding: 20px 40px;
+	border: 1px solid #888;
+	border-width: 0 1px 1px;
+    font-family: var(--main-font-2);
+    font-size: 15px;
+}
+
 .hero {
     background-image: linear-gradient(to right bottom, rgba(40, 180, 133, 0.8), rgb(69, 93, 88, 0.5)), url("images/hero-bg.jpg");
     background-size: cover;

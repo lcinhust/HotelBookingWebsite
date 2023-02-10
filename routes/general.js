@@ -47,13 +47,13 @@ router.get('/spa', (req, res) => {
     res.render('spa.ejs');
 })
 
-router.get('/profile', (req, res) => {
+router.get('/profile', isLoggedIn, (req, res) => {
     res.render('profile.ejs');
 })
-router.get('/editProfile', (req, res) => {
+router.get('/editProfile', isLoggedIn, (req, res) => {
     res.render('editProfile.ejs');
 })
-router.get('/editPassword', (req, res) => {
+router.get('/editPassword', isLoggedIn, (req, res) => {
     res.render('editPassword.ejs');
 })
 
