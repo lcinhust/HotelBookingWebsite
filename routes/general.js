@@ -15,6 +15,10 @@ function checkAuthProtectedRoute(req,res,next)
     else res.redirect('/loginform');
 }
 
+router.get('/', (req, res) => {
+    res.sendFile('index.html', { root: path.join(`${__dirname}/../pages`)});
+})
+
 router.get('/index', (req, res) => {
     res.sendFile('index.html', { root: path.join(`${__dirname}/../pages`)});
 })

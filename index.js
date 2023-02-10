@@ -7,7 +7,6 @@ const usersRouter = require('./routes/users');
 const generalRouter = require('./routes/general');
 const bookingRouter = require('./routes/booking');
 
-
 const app = express();
 
 const oneDay = 1000 * 60 * 60 * 24;
