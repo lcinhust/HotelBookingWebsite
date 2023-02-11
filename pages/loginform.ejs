@@ -50,12 +50,12 @@
         <div class="form-container sign-in-container">
             <form method="post" action="/signin">
                 <h1 style="padding-bottom: 15px"> Login Now</h1>
-                <input type="email" name="email" placeholder="Email" id="email">
+                <input type="email" name="email" placeholder="Email" id="email" required>
                 <div class="password-container">
-                    <input type="password" placeholder="Password" id="password" name="password">
+                    <input type="password" placeholder="Password" id="password" name="password" required>
                     <!-- <i class="fa-solid fa-eye" id="eye"></i> -->
                 </div>
-                <script>
+                <!-- <script>
                     const passwordInputlogin = document.querySelector("#password")
                     const eye2 = document.querySelector("#eye")
                     eye2.addEventListener("click", function(){
@@ -63,7 +63,7 @@
                         const type2 = passwordInputlogin.getAttribute("type") === "password" ? "text" : "password"
                         passwordInputlogin.setAttribute("type", type2)
                     })
-                </script>
+                </script> -->
                 <a href="#" style="padding-left:150px; font-weight: bold"> Forgot Your Password?</a>
                 <a><button style="margin-top: 10px"> Let Me In...</button></a>
                 <h5>New to here! <a href="/signupform" class="ghost" id="signUp" style="color:blue;"><u>Sign Up</u></a></h5>

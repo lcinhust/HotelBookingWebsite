@@ -60,14 +60,14 @@
             </div>
         </div>
         <div class="form-container sign-in-container">
-            <form method="post" action="/signup">
+            <form method="POST" action="/signup" >
                 <h1 style="padding-top: 15px"> Create Account</h1>
-                <input type="text" id="fnm" placeholder="First Name">
-                <input type="text" id="lnm" placeholder="Last Name">
-                <input type="text" id="em" placeholder="Email">
+                <input type="text" id="fnm" placeholder="First Name" name="fname" required>
+                <input type="text" id="lnm" placeholder="Last Name" name="lname" required>
+                <input type="email" id="em" placeholder="Email" name="email" required>
                 <div class="password-container">
-                    <input type="password" placeholder="Password..." id="password">
-                    <!-- <i class="fa-solid fa-eye" id="eye"></i> -->
+                    <input type="password" placeholder="Password" id="pass" name="password" required>
+                    <i class="fa-solid fa-eye" id="eye"></i>
                 </div>
                 <script>
                     const passwordInput = document.querySelector("#password")
@@ -78,8 +78,8 @@
                         passwordInput.setAttribute("type", type1)
                     })
                 </script>
-                <input type="text" name="phone" placeholder="Phone Number">
-                <input type="number" name="age" placeholder="Age">
+                <input type="number" name="phone" placeholder="Phone Number" required>
+                <input type="date" name="dob" placeholder="Date of Birth" required>
                 <button style="margin-top:10px"> Create Account</button>
                 <h5>Already have an account! <a href="/loginform" class="ghost" id="signIn" style="color:blue;"><u>Sign In</u></a></h5>
             </form>
