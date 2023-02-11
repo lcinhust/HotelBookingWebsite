@@ -41,6 +41,10 @@ router.get('/loginform', isLoggedOut, (req, res) => {
     res.render('loginform.ejs');
 })//if already logged in, redirect to /booking
 
+router.get('/signupform', (req, res) => {
+    res.render('signupform.ejs');
+})
+
 router.get('/restaurant', (req, res) => {
     res.render('restaurant.ejs');
 })
