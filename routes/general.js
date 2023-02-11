@@ -38,11 +38,11 @@ router.get('/contact', (req, res) => {
 })
 
 router.get('/loginform', isLoggedOut, (req, res) => {
-    res.render('loginform.ejs');
+    res.render('loginform.ejs',{message:req.flash('error')});
 })//if already logged in, redirect to /booking
 
 router.get('/signupform', (req, res) => {
-    res.render('signupform.ejs');
+    res.render('signupform.ejs',{message:req.flash('error')});
 })
 
 router.get('/restaurant', (req, res) => {

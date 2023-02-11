@@ -75,6 +75,9 @@
         <div class="form-container sign-in-container">
             <form method="post" action="/signin">
                 <h1 style="padding-bottom: 15px"> Login Now</h1>
+                <% if (message) { %>
+                    <div class="alert alert-info"><%= message %></div>
+                <% } %>
                 <input type="email" name="email" placeholder="Email" id="email" required>
                 <div class="password-container">
                     <input type="password" placeholder="Password" id="password" name="password" required>
@@ -91,14 +94,8 @@
                 </script> -->
                 <a href="#" style="padding-left:150px; font-weight: bold"> Forgot Your Password?</a>
                 <a><button style="margin-top: 10px"> Let Me In...</button></a>
-                <h5>New to here! <a class="ghost" id="signUp" style="color:blue;"><u>Sign Up</u></a></h5>
+                <h5>New to here! <a href='/signupform' class="ghost" id="signUp" style="color:blue;"><u>Sign Up</u></a></h5>
             </form>
-            <script>
-                function callme(){
-                    var name = document.getElementsByName('email').values;
-                    sessionStorage.setItem('userName', name);
-                }
-            </script>
         </div>
         <div class="overlay-container">
             <div class="overlay">
@@ -112,17 +109,5 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-    const container = document.getElementById('container');
-
-    signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
-    });
-    signInButton.addEventListener('click', () => {
-        container.classList.remove("right-panel-active");
-    });
-    </script>
 </body>
 </html>

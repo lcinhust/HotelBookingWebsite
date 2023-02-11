@@ -11,7 +11,8 @@ router.post('/signup', async (req,res)=>{
         if (err) throw err;
         if (results.length>0)
         {
-            res.status(404).json({message: 'Email already registered'});
+            req.flash('error','Email already registered');
+            res.redirect('/signupform')
         }
         else{
             db.query(`insert into account (email,password) values ('${email}','${hashedPassword}')`, (err)=>{
@@ -49,10 +50,16 @@ router.post('/signin',(req,res)=>{
                     
                         res.redirect('/index');
                     } 
-                    else res.status(404).json({message: 'password is not correct'});
+                    else {
+                        req.flash('error','Password is not correct');
+                        res.redirect('/loginform')
+                    }
                 })
             }
-            else res.status(404).json({message: 'email is not registered'});
+            else {
+                req.flash('error','Email is not registered');
+                res.redirect('/loginform')
+            }
         })
     }
 })

@@ -62,6 +62,9 @@
         <div class="form-container sign-in-container">
             <form method="POST" action="/signup" >
                 <h1 style="padding-top: 15px"> Create Account</h1>
+                <% if (message) { %>
+                    <div class="alert alert-info"><%= message %></div>
+                <% } %>
                 <input type="text" id="fnm" placeholder="First Name" name="fname" required>
                 <input type="text" id="lnm" placeholder="Last Name" name="lname" required>
                 <input type="email" id="em" placeholder="Email" name="email" required>
