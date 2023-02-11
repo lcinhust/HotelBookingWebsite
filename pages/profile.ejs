@@ -64,11 +64,14 @@
                     </div>
                     <div style = "position:relative; left:290px;">
                         <h3>Date of birth</h3>
-                        <p><% let dob=userData.birth_date %>
-                            <%const date=dob.getDate()%>
-                            <%const month=dob.getMonth()+1%>
-                            <%const year=dob.getFullYear()%>
-                            <%= date + "/" + month + "/" + year%></p>
+                        <% function dateFormatting(dateType){
+                            let date = dateType.getDate();
+                            let month = dateType.getMonth()+1;
+                            let year= dateType.getFullYear();
+                            const dateFormat = [(date>9 ? '' : '0') + date,(month>9 ? '' : '0') + month,year].join('/');
+                            return dateFormat;
+                        } %>
+                        <p><%= dateFormatting(userData.birth_date) %></p>
                     </div>
                     <div style = "position:relative; left:290px;">
                         <h3>Phone</h3>
@@ -89,12 +92,14 @@
                         </tr>
                     </thead> 
                     <tbody>
-                        <tr>
-                            <td data-label="ID" style="font-size: 20px; color: aliceblue;"></td> <!--insert into row values -->
-                            <td data-label="RoomNum" style="font-size: 20px; color: aliceblue;"></td>
-                            <td data-label="Arrival date" style="font-size: 20px; color: aliceblue;"></td>
-                            <td data-label="Departure Date" style="font-size: 20px; color: aliceblue;"></td>
-                        </tr>
+                        <% userReservation.forEach(element =>{ %>
+                            <tr>
+                                <td data-label="ID" style="font-size: 20px; color: aliceblue;"><%= element.reservation_id %></td> <!--insert into row values -->
+                                <td data-label="RoomNum" style="font-size: 20px; color: aliceblue;"><%= element.roomList %></td>
+                                <td data-label="Arrival date" style="font-size: 20px; color: aliceblue;"><%= dateFormatting(element.date_in) %></td>
+                                <td data-label="Departure Date" style="font-size: 20px; color: aliceblue;"><%= dateFormatting(element.date_out) %></td>
+                            </tr>
+                        <% }) %>
                     </tbody>
                 </table>
             </div>

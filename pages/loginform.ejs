@@ -50,6 +50,9 @@
         <div class="form-container sign-in-container">
             <form method="post" action="/signin">
                 <h1 style="padding-bottom: 15px"> Login Now</h1>
+                <% if (message) { %>
+                    <div class="alert alert-info"><%= message %></div>
+                <% } %>
                 <input type="email" name="email" placeholder="Email" id="email" required>
                 <div class="password-container">
                     <input type="password" placeholder="Password" id="password" name="password" required>
