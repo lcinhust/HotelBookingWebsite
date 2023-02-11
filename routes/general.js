@@ -59,7 +59,32 @@ router.get('/profile', isLoggedIn, (req, res) => {
               where account.id=${req.session.userId}`, (err,results)=>{
                 if (err) throw err;
                 const userData=results[0];
-                res.render('profile.ejs',{userData});
+                db.query(`select reservation_id,date_in,date_out,number
+                        from reservation a join room_reserved b on a.id=b.reservation_id 
+                        join room c on b.room_id=c.id
+                        where booker_id=${req.session.userId}
+                        order by reservation_id`,(err,results)=>{
+                            if (err) throw err;
+                            const userReservation = [];
+                            let i=0; //number of reservations
+                            results.forEach((element,index,arr) => {
+                                if (index===0 || element.reservation_id != arr[index-1].reservation_id)
+                                {
+                                    userReservation.push({
+                                        reservation_id: element.reservation_id,
+                                        date_in: element.date_in,
+                                        date_out: element.date_out,
+                                        roomList: [element.number]
+                                    });
+                                    i++;
+                                }
+                                else
+                                {
+                                    userReservation[i-1].roomList.push(element.number);
+                                }
+                            });
+                            res.render('profile.ejs',{userData, userReservation});
+                        })
               })
 })
 router.get('/editProfile', isLoggedIn, (req, res) => {
