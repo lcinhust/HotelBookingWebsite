@@ -16,6 +16,8 @@ router.post('/signup', async (req, res) => {
             //     if (err) throw err;
             //     res.redirect('/index');
             // })
+
+            // Double insert
             db.beginTransaction(function (err) {
                 if (err) { throw err; }
                 db.query(`insert into account (email,password,type_of_account) values ('${email}','${hashedPassword}','booker')`, (err, result) => {
