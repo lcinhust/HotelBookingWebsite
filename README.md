@@ -42,7 +42,7 @@ If you find any issue just put it in the repository issue section, thank you.
             <td>Nguyễn Chí Long</td>
             <td align="center"> 20210553&nbsp;&nbsp;&nbsp;</td>
             <td align="left">
-                <ul >
+                <ul>
                 <li></li>
                 <li></li>
                 </ul>
@@ -60,7 +60,7 @@ If you find any issue just put it in the repository issue section, thank you.
         </tr>
         <tr>
             <td>Ngô Xuân Bách</td>
-            <td align="center">&nbsp;&nbsp;&nbsp;</td>
+            <td align="center"> 20215181&nbsp;&nbsp;&nbsp;</td>
             <td>
                 <ul>
                 <li></li>
@@ -70,7 +70,7 @@ If you find any issue just put it in the repository issue section, thank you.
         </tr>
         <tr>
             <td>Lê Xuân Hiếu</td>
-            <td align="center">&nbsp;&nbsp;&nbsp;</td>
+            <td align="center"> 20215201&nbsp;&nbsp;&nbsp;</td>
             <td>
                 <ul>
                 <li></li>
