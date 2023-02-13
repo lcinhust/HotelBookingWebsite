@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <a class="logo" href="/index">hotel name</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/rooms" class="nav-link">Rooms</a></li>
+                <li class="nav-item"><a href="/restaurant" class="nav-link">Restaurant</a></li>
+                <li class="nav-item"><a href="/spa" class="nav-link">Service</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+                <!-- <li class="nav-item"><a href="/editProfile" class="nav-link">Edit pf</a></li> -->
+                <!-- <%if (!locals.session.userId) { %>
+                    <li class="nav-item"><a href="/loginform" class="nav-link book-btn">Login</a></li>
+                <% }else{ %>
+                    <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="nav-link book-btn" style="cursor: pointer;">User</button>
+                        <div class="dropdown-content">
+                        <a class="nav-link" href="/profile">Profile</a>
+                        <a class="nav-link" href="/logout" >Logout</a>
+                        </div>
+                    </div>
+                    </li>
+                <%}%> -->
+            </ul>
+        </nav>
+        </nav>
+    </div>
+    <section id="info" class="info">
+        <div class="container">
+            <h2>ADMIN PANEL - WELCOME (insert admin username here)!</h2>
+        </div>
+    </section>
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'e1')">Reservation</button>
+		<button class="tablinks" onclick="openCity(event, 'e2')">Rooms</button>
+        <button class="tablinks" onclick="openCity(event, 'e3')">Users</button>
+		<button class="tablinks" onclick="openCity(event, 'e4')">Add Rooms</button>
+    </div>
+    
+    <!-- Tab content with title -->
+    <div id="e1" class="tabcontent" align="center">
+        <h3>Reservation</h3>
+        <br><br>
+        <table>
+			<thead>
+				<tr> <!-- display column name -->
+					<th>ID</th>
+					<th>Booker_id</th>
+					<th>Date_in</th>
+					<th>Date_out</th>
+					<th>Status</th>
+					<th>Number of adults</th>
+					<th>Number of chilren</th>
+					<th>Choose</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr> <!-- display rows -->
+					<td data-label="ID:"></td> <!-- insert row into values -->
+					<td data-label="Booker_id"></td> <!-- relating to user_id-->
+					<td data-label="Date_in"></td>
+					<td data-label="Date_out"></td>
+					<td data-label="Status"></td>
+					<td data-label="Number of adults"></td>
+					<td data-label="Number of chilren"></td>
+					<td><input type="checkbox" id="" name="" value="" style="width: 30px; height: 30px; cursor: pointer;"></td> <!-- your choice -->
+				</tr>
+			</tbody>
+		</table>
+		<div class="row">
+			<input type="Submit" value="Approve">
+			<input type="Submit" value="Decline">
+		</div>
+    </div>
+    <div id="e2" class="tabcontent" align="center">
+        <h3>Rooms</h3>
+        <br><br>
+        <table>
+			<thead>
+				<tr> <!-- display column name -->
+					<th>Number</th>
+					<th>Type</th>
+					<th>Capacity</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody> <!-- display rows -->
+				<tr>
+					<td data-label="Number"></td> <!-- insert into row values -->
+					<td data-label="ID"></td>
+					<td data-label="Capacity"></td>
+					<td data-label="Number"></td>
+				</tr>
+			</tbody>
+		</table>
+    </div>
+    <div id="e3" class="tabcontent" align="center">
+        <h3>Users</h3>
+        <br><br>
+        <table>
+			<thead>
+				<tr> <!-- display column name -->
+					<th>ID</th>
+					<th>Email</th>
+					<th>First name</th>
+					<th>Last name</th>
+					<th>Date Of Birth</th>
+					<th>Phone Number</th>
+					<th>Type of Account</th>
+					<th>Choose</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr> <!-- display rows -->
+					<td data-label="ID:"></td> <!-- insert into row values -->
+					<td data-label="Email"></td>
+					<td data-label="First_name"></td>
+					<td data-label="Last_name"></td>
+					<td data-label="DOB"></td>
+					<td data-label="PhoneNum"></td>
+					<td data-label="Type_of_account"></td>
+					<td><input type="checkbox" id="" name="" value="" style="width: 30px; height: 30px; cursor: pointer;"></td> <!-- your choice -->
+				</tr>
+			</tbody>
+		</table>
+		<br><br>
+		<div class="row">
+			<input type="Submit" value="Delete User">
+		</div>
+    </div>
+	<div id="e4" class="tabcontent" align="center">
+        <h3>Add Rooms</h3>
+		<br><br>
+		<form action=""> <!-- fill in the form for adding room info-->
+			<div class="row">
+				<div class="col-for-form">
+					<input type="text" id="" name="number" placeholder="Number..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-for-form">
+					<input type="text" id="" name="type" placeholder="Room type..">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-for-form">
+					<select id="" name="">
+						<option value="">1</option>
+						<option value="">2</option>
+						<option value="">3</option>
+					</select>
+				</div>
+			</div>
+			<br><br>
+			<div class="row">
+				<input type="submit" value="Submit">
+			</div>
+		</form>
+    </div>
+    <script src="tab.js"></script>
+</body>
