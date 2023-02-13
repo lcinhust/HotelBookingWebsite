@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> SignUp and Login</title>
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <script>
+        function validateAcc(){
+            validateEmail(em); // check email
+            validateName(fnm); // check name
+            validateName(lnm);
+        }
+        function validateEmail(email) {
+            var email = document.getElementById(email);
+            if (email.value === "") {
+                alert("Your Email Address must be filled out");
+                return false;
+            } else {
+                var regExpEmail =
+                    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if (!regExpEmail.test(email.value)) {
+                    alert("Email is not in correct format");
+                    email.focus();
+                    return false;
+                }
+            }
+        }
+
+        // validate the input name
+        function validateName(targetId) {
+            var name = document.getElementById(targetId);
+            var regExpFirstName = /^[A-Z][a-z]+$/;
+            var space = /\s/;
+            if (name.value === "") {
+                alert(targetId+" must be filled out");
+                return false;
+            } else {
+                if (!regExpFirstName.test(name.value) && !space.test(name.value)) {
+                    alert("Please enter "+targetId+" in correct format");
+                    name.focus();
+                    return false;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <form method="post" action="/signin">
+                <h1 style="padding-bottom: 15px"> Login Now</h1>
+                <% if (message) { %>
+                    <div class="alert alert-info"><%= message %></div>
+                <% } %>
+                <input type="email" name="email" placeholder="Email" id="email" required>
+                <div class="password-container">
+                    <input type="password" placeholder="Password" id="password" name="password" required>
+                    <!-- <i class="fa-solid fa-eye" id="eye"></i> -->
+                </div>
+                <!-- <script>
+                    const passwordInputlogin = document.querySelector("#password")
+                    const eye2 = document.querySelector("#eye")
+                    eye2.addEventListener("click", function(){
+                        this.classList.toggle("fa-eye-slash")
+                        const type2 = passwordInputlogin.getAttribute("type") === "password" ? "text" : "password"
+                        passwordInputlogin.setAttribute("type", type2)
+                    })
+                </script> -->
+                <a href="#" style="padding-left:150px; font-weight: bold"> Forgot Your Password?</a>
+                <a><button style="margin-top: 10px"> Let Me In...</button></a>
+                <h5>New to here! <a href="/signupform" class="ghost" id="signUp" style="color:blue;"><u>Sign Up</u></a></h5>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <img src="https://images.unsplash.com/photo-1673640039265-771986c69de7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80" alt="movie-1" height="550" width="500"/>
+                    
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <img src="https://images.unsplash.com/photo-1673640039265-771986c69de7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80" alt="movie-2" height="550" width="500"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
