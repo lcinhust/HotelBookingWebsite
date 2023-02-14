@@ -145,109 +145,119 @@
     <section class="contact">
         <div class="container">
             <article class="main">
-                <form action="/booking" method="post" id="book_reservation" onsubmit="validateForm()">
-                    <div class="col-2">
-                        <ul>
-                            <div class="menu-header">
-                                <h2 class="headline" style="color: #3e61a0;">Hotel Booking</h2>
-                            </div>
-
-                            <div class="selectdate">
-                                <!-- arrival date and time -->
-                                <li>
-                                <li>
-                                    <span style="color: #3e61a0; font-size: 2rem;">Arrival Date *</span>
-                                    <div>
-                                        <input type="date" id="ArrivalDate" required placeholder="Arrival" required
-                                            style="margin-top: 10px;">
-                                    </div>
-                                </li>
-                                <br>
-
-                                <!-- departure date and time -->
-                                <li>
-                                <li>
-                                    <span style="color: #3e61a0; font-size: 2rem;">Departure Date *</span>
-                                    <div>
-                                        <input type="date" id="DepartureDate" required placeholder="Departure" required
-                                            style="margin-top: 10px;">
-                                    </div>
-                                </li>
-                            </div>
-
-                            <div class="selectroom">
-                                <div class="room">
-                                    <li>
-                                        <span style="color: #3e61a0; font-size: 2rem;">Number Of Guests *</span>
-                                        <div>
-                                            <select name="guestNum" id="guest" required style="margin-top: 10px;">
-                                                <option selected disabled value="-1">Number of guests</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                            </select>
-                                        </div>
-                                    </li>
+                <div style="padding: 15px 15px 15px 15px;">
+                    <form action="/booking" method="post" id="book_reservation" onsubmit="validateForm()">
+                        <div class="col-2">
+                            <ul>
+                                <!-- Header-->
+                                <div class="menu-header">
+                                    <h2 class="headline" style="color: #3e61a0;">Hotel Booking</h2>
                                 </div>
-                                <div class="add-btn">
-                                    <button id="btns" class="btn book-btn" type="button">Book more rooms</button>
-                                </div>
-                            </div>
-                            <!-- guest num -->
 
-                            <br><br><br>
-                            <div id="containers"></div>
-                            <script>
-                                const btn = document.querySelector("#btns");
-                                const container = document.querySelector("#containers");
-                                let orderNumber = 1;
-                                btn.addEventListener("click", function () {
-                                    const roomForm = document.createElement("div");
-                                    roomForm.classList.add("room-form");
-                                    const orderLabel = document.createElement("span");
-                                    orderLabel.innerText = `Order ${orderNumber}:`;
-                                    orderNumber++;
-                                    const deleteBtn = document.createElement("button");
-                                    deleteBtn.classList.add("delete-btn");
-                                    deleteBtn.style.innerText = "Delete";
-                                    deleteBtn.addEventListener("click", function () {
-                                        roomForm.remove();
-                                        orderNumber--;
-                                    });
-                                    roomForm.innerHTML = `
-                                            <div class="container">
-                                                <h3>Your room</h3>
-                                                <article class="main">
-                                                    <div style="padding: 15px 15px 15px 15px;"> 
-                                                        <li>
-                                                        <span style="color: #3e61a0; font-size: 2rem;">Number Of Adults *</span>
-                                                        <div>
-                                                            <select name="guestNum" id="guest" required style="margin-top: 10px;">
-                                                                <option selected disabled value="-1">Number of guests</option>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
-                                                            </select>
-                                                        </div>
-                                                    </li>
-                                                    </div>
-                                                </article>
+                                <!-- Select date-->
+                                <div class="select-date">
+                                    <div class="select-date-title">
+                                        <h3>Select your dates</h3>
+                                    </div>
+                                    <div class="select-date-content">
+                                        <label for="arrival-date" class="booking-label">Arrival date</labe>
+                                        <input type="date" id="arrival-date" name="arrival-date" required>
+                                        <label for="departure-date" class="booking-label">Departure date</label>
+                                        <input type="date" id="departure-date" name="departure-date" required>
+                                    </div>
+                                </div>
+
+                                <!-- Select room -->
+                                <div class="select-room">
+                                    <div class="select-room-title">
+                                        <h3>Who is travelling with?</h3>
+                                    </div>
+                                    <div class="select-room-content" id="room-container">
+                                        <div class="room">
+                                            <div class="room-content">
+                                                <span class="room-title" >Room 1:</span>
+                                                <label class="booking-label" for="room-0">Choose the type of room</label>
+                                                <select name="room[]" id="room-0" required style="margin-top: 10px;">
+                                                    <option value="1">Single (Max: 1 person)</option>
+                                                    <option value="2">Double (Max: 2 people)</option>
+                                                    <option value="3">Family Suite (Max: 4 people)</option>
+                                                    <option value="4">President (Max: 4 people)</option>
+                                                </select>
                                             </div>
-                                        `;
-                                    roomForm.appendChild(deleteBtn);
-                                    container.appendChild(roomForm);
-                                })
-                            </script>
+                                            <div class="room-control">
+                                                <button type="button" class="delete-btn" id="delete-btn" disabled>- Remove the room</button>
+                                            </div>
+                                           
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="select-room-control">
+                                        <button type="button" class="add-btn" id="add-btn">+ Add a room</button>
+                                    </div>
+                                </div>
+                                
+                                <li>
+                                    <button type="submit" class="btn btn-white">Submit</button>
+                                </li>
+                                <br><br>
+                            </ul>
+                        </div>
+                    </form>
 
-                            <li>
-                                <button class="btn btn-white" type="submit">Submit</button>
-                            </li>
-                            <br><br>
-                        </ul>
-                    </div>
-                </form>
+                    <script>
+                        const addBtn=document.getElementById('add-btn');
+                        const deleteBtn=document.getElementById('delete-btn');
+                        const roomContainer = document.getElementById('room-container');
+                        function addRoom(){
+                            let roomList = document.querySelectorAll('#room-container .room');
+                            let lastRoom = roomList[roomList.length-1];
+                            let lastRoomId = lastRoom.querySelector('select').id;
+                            let newRoomId = 'room-' + (parseInt(lastRoomId.replace('room-',''))+1);
+                            let newRoom = document.createElement('div');
+                            newRoom.classList.add('room');
+                            newRoom.innerHTML=`
+                                <div class="room-content">
+                                    <span class="room-title" >Room ${roomList.length+1}:</span>
+                                    <label class="booking-label" for="${newRoomId}">Choose the type of room</label>
+                                    <select name="room[]" id="${newRoomId}" required style="margin-top: 10px;">
+                                        <option value="1">Single (Max:1 person)</option>
+                                        <option value="2">Double (Max:2 people)</option>
+                                        <option value="3">Family Suite (Max: 4 people)</option>
+                                        <option value="4">President (Max:4 people)</option>
+                                    </select>
+                                </div>
+                                <div class="room-control">
+                                    <button type="button" class="delete-btn">- Remove the room</button>
+                                </div>`;
+                            roomContainer.appendChild(newRoom);
+                            checkRoomCount();
+                        }
+                        addBtn.addEventListener('click',addRoom);
+
+                        roomContainer.addEventListener('click' ,function removeRoom(e){
+                            if (e.target && e.target.classList.contains('delete-btn'))
+                            {
+                                console.log(e.target.parentNode.parentNode)
+                                e.target.parentNode.parentNode.remove();
+                                checkRoomCount();
+                            }
+                        });
+
+                        function checkRoomCount() {
+                            let roomList = document.querySelectorAll('#room-container .room');
+                            if (roomList.length === 1) {
+                                roomList[0].querySelector('.delete-btn').setAttribute('disabled', true);
+                                roomList[0].querySelector('.room-title').textContent='Room 1:';
+                            } else {
+                                roomList.forEach(function(room, index) {
+                                let title = room.querySelector('.room-title');
+                                title.textContent = `Room ${index + 1}:`;
+                                room.querySelector('.delete-btn').removeAttribute('disabled');
+                                });
+                            }
+                        }
+                    </script>
+                </div>
             </article>
         </div>
     </section>
