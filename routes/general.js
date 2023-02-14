@@ -33,6 +33,10 @@ router.get('/booking', isLoggedIn, (req, res) => {
     res.render('booking.ejs');
 }) //must log in to see
 
+router.post('/booking',(req,res)=>{
+    console.log(req.body);
+})
+
 router.get('/contact', (req, res) => {
     res.render('contact.ejs');
 })
