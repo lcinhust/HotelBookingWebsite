@@ -4,18 +4,7 @@ const path = require('path');
 const db=require('../database');
 const bcrypt=require('bcrypt');
 
-function isLoggedOut(req,res,next){
-    if (req.session.userId)
-        res.redirect('/booking');
-    else next();
-}
 
-function isLoggedIn(req,res,next)
-{
-    if (req.session.userId)
-        next();
-    else res.redirect('/loginform');
-}
 
 router.get('/index', (req, res) => {
     res.render('index.ejs');
@@ -52,6 +41,19 @@ router.get('/restaurant', (req, res) => {
 router.get('/spa', (req, res) => {
     res.render('spa.ejs');
 })
+
+function isLoggedOut(req,res,next){
+    if (req.session.userId)
+        res.redirect('/booking');
+    else next();
+}
+
+function isLoggedIn(req,res,next)
+{
+    if (req.session.userId)
+        next();
+    else res.redirect('/loginform');
+}
 
 router.get('/profile', isLoggedIn, (req, res) => {
     db.query(`select * 
@@ -189,5 +191,10 @@ router.get('/logout', isLoggedIn, (req,res)=>{
     req.session.destroy();
     res.redirect('/loginform')
 })
+
+
+
+
+
 
 module.exports = router
