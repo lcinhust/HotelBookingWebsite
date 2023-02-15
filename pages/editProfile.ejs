@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact </title>
+    <title>Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- navbar -->
     <div class="container">
         <nav class="navbar">
             <a class="logo" href="/index">Hotel name</a>
@@ -25,48 +25,52 @@
                 <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
                 <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
                 <li class="nav-item"><a href="/booking" class="nav-link book-btn">Book Now</a></li>
-                <!-- <li class="nav-item"><a href="/loginform" class="nav-link book-btn">Login</a></li> -->
+                <%if (!locals.session.userId) { %>
+                    <li class="nav-item"><a href="/loginform" class="nav-link book-btn">Login</a></li>
+                <% }else{ %>
+                    <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="nav-link book-btn" style="cursor: pointer;">User</button>
+                        <div class="dropdown-content">
+                          <a class="nav-link" href="/profile">Profile</a>
+                          <a class="nav-link" href="/logout">Logout</a>
+                        </div>
+                      </div>
+                    </li>
+                <%}%>
             </ul>
         </nav>
     </div>
-
-    <!-- contact section -->
-    <section id="contact" class="contact">
+    <section class="contact">
         <div class="container">
             <div class="row">
-                <div class="col-2">
-                    <div>
-                        <h3>How Can We Help?</h3>
-                        <p>If you have further questions about our [Hotel name], 
-                            would like to make arrangements for an upcoming stay or 
-                            have a comment or suggestion about a recent visit, 
-                            please contact our sale team.</p>
+                        <div class="col-2">
+                            <h3>Account Details</h3>
+                            <% if (message) { %>
+                                <div class="alert alert-info"><%= message %></div>
+                            <% } %>
+                            <form method="POST" action="/editProfile">
+                                <!-- Form Row-->
+                                <input type="hidden"  name="id" value="<%= userData.id%>" >
+                                <input type="text" placeholder="First Name" name="fname" value="<%= userData.first_name%>" required>
+                                <input type="text" placeholder="Last Name" name="lname" value="<%= userData.last_name%>" required>
+                                <input type="email" placeholder="Email Address" name="email" value="<%= userData.email%>" required>
+                                <input type="phone" placeholder="Phone Number" name="phone" value="<%= userData.phone%>" required>
+                                <% let dob=userData.birth_date %>
+                                <%const date=dob.getDate()%>
+                                <%const month=dob.getMonth()+1%>
+                                <%const year=dob.getFullYear()%>
+                                <%const dateFormat = [year,(month>9 ? '' : '0') + month,(date>9 ? '' : '0') + date].join('-')%>
+                                <input type="date" placeholder="Date of birth" name="dob" value="<%= dateFormat %>" required>
+                                <!-- Save changes button-->
+                                <a><button class="btn btn-primary">Save changes</button></a>
+                            </form>
+                        </div>
                     </div>
-                    <div>
-                        <h3>Address</h3>
-                        <p>1, Dai Co Viet st,</p>
-                        <p>Hai Ba Trung,</p>
-                        <p>Hanoi</p>
-                    </div>
-                    <div>
-                        <h3>Reservations</h3>
-                        <p>09812345678</p>
-                        <p>book@a+databaseproject.com</p>
-                    </div>
-                </div>
-                <div class="col-2">
-                    <form>
-                        <input type="text" placeholder="Name" required>
-                        <input type="email" placeholder="Email Address" required>
-                        <textarea row="20" cols="20" placeholder="Your Message" required></textarea>
-                        <button class="btn btn-white">Send</button>
-                    </form>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- footer section -->
     <footer>
         <div class="container">
             <div class="back-to-top">
@@ -135,4 +139,3 @@
         </div>
     </footer>
 </body>
-</html>
