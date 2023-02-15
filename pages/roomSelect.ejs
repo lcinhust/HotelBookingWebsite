@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your choice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Room Booking</h2>
+            <h3>Room-type 1</h3>
+            <p>Choose xx rooms</p>
+            <label for="roomName1" style="font-size: 20px; display: inline-flex; margin-right: 20px;">
+                <input type="checkbox" id="roomName1" name="room_Name" value=""
+                    style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
+                101
+            </label>
+
+            <label for="roomName2" style="font-size: 20px; display: inline-flex; margin-right: 20px;">
+                <input type="checkbox" id="roomName2" name="room_Name" value=""
+                    style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
+                102
+            </label>
+
+            <label for="roomName3" style="font-size: 20px; display: inline-flex; margin-right: 20px;">
+                <input type="checkbox" id="roomName3" name="room_Name" value=""
+                    style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
+                103
+            </label>
+
+            <label for="roomName4" style="font-size: 20px; display: inline-flex; margin-right: 20px;">
+                <input type="checkbox" id="roomName4" name="room_Name" value=""
+                    style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
+                104
+            </label>
+            <p align="center">Price per room: $xxx</p>
+        </div>
+
+        <!-- <% var options = ["Option 1", "Option 2", "Option 3"]; %>
+            <% for (var i = 0; i < options.length; i++) { %>
+            <div class="checkbox-container">
+                <input type="checkbox" id="checkbox<%= i %>" name="<%= options[i] %>">
+                <label for="checkbox<%= i %>"><%= options[i] %></label>
+            </div>
+            <% } %> -->
+
+        <div class="container">
+            <h3>Room-type 2</h3>
+            <p>Choose xx rooms</p>
+            <label for="roomName1" style="font-size: 20px; display: inline-block; margin-right: 20px;">
+                <input type="checkbox" id="roomName1" name="room_Name" value=""
+                    style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
+                201
+            </label>
+
+            <label for="roomName2" style="font-size: 20px; display: inline-block; margin-right: 20px;">
+                <input type="checkbox" id="roomName2" name="room_Name" value=""
+                    style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
+                202
+            </label>
+
+            <label for="roomName3" style="font-size: 20px; display: inline-block; margin-right: 20px;">
+                <input type="checkbox" id="roomName3" name="room_Name" value=""
+                    style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
+                203
+            </label>
+
+            <label for="roomName4" style="font-size: 20px; display: inline-block; margin-right: 20px;">
+                <input type="checkbox" id="roomName4" name="room_Name" value=""
+                    style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
+                204
+            </label>
+            <p align="center">Price per room: $xxx</p>
+        </div>
+        <br><br><br>
+        <div class="container">
+            <button class="nav-link book-btn" style="cursor: pointer;" data-modal-target="#modal">Price Confirm</button>
+            <div class="modal" id="modal">
+                <div class="modal-header">
+                    <p>Total Purchase</p>
+                    <button data-close-button class="close-button">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h3>Confirming room number chose: ...</h3>
+                    <h3>The total price: ....</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis 
+                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
+                        eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
+                        sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <br><br>
+                    <button id="showDivBtn" class="nav-link book-btn" style="cursor: pointer;">Accept</button>
+                    <button id="showDivBtn" class="nav-link book-btn" style="cursor: pointer;">Decline</button>
+                </div>
+            </div>
+            <div id="overlay"></div>
+            <script>
+                const openModalButtons = document.querySelectorAll('[data-modal-target]')
+                const closeModalButtons = document.querySelectorAll('[data-close-button]')
+                const overlay = document.getElementById('overlay')
+
+                openModalButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const modal = document.querySelector(button.dataset.modalTarget)
+                        openModal(modal)
+                    })
+                })
+
+                overlay.addEventListener('click', () => {
+                    const modals = document.querySelectorAll('.modal.active')
+                    modals.forEach(modal => {
+                        closeModal(modal)
+                    })
+                })
+
+                closeModalButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const modal = button.closest('.modal')
+                        closeModal(modal)
+                    })
+                })
+
+                function openModal(modal) {
+                    if (modal == null) return
+                    modal.classList.add('active')
+                    overlay.classList.add('active')
+                }
+
+                function closeModal(modal) {
+                    if (modal == null) return
+                    modal.classList.remove('active')
+                    overlay.classList.remove('active')
+                }
+            </script>
+            <style>
+                *, *::after, *::before {
+                    box-sizing: border-box;
+                }
+
+                .modal {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%) scale(0);
+                    transition: 200ms ease-in-out;
+                    border: 1px solid black;
+                    border-radius: 10px;
+                    z-index: 10;
+                    background-color: white;
+                    width: 500px;
+                    max-width: 80%;
+                }
+
+                .modal.active {
+                    transform: translate(-50%, -50%) scale(1);
+                }
+
+                .modal-header {
+                    padding: 10px 15px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid black;
+                }
+
+                .modal-header .title {
+                    font-size: 1.25rem;
+                    font-weight: bold;
+                }
+
+                .modal-header .close-button {
+                    cursor: pointer;
+                    border: none;
+                    outline: none;
+                    background: none;
+                    font-size: 1.25rem;
+                    font-weight: bold;
+                }
+
+                .modal-body {
+                    padding: 10px 15px;
+                }
+
+                #overlay {
+                    position: fixed;
+                    opacity: 0;
+                    transition: 200ms ease-in-out;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: rgba(0, 0, 0, .5);
+                    pointer-events: none;
+                }
+
+                #overlay.active {
+                    opacity: 1;
+                    pointer-events: all;
+                }
+            </style>
+        </div>
+    </section>
+</body>
+
+</html>
