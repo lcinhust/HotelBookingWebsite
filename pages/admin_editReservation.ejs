@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+    <section class="editReservation">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <h3>Reservation Details</h3>
+                    <br><br>
+                    <form method="POST" action="">
+                        <!-- Form Row-->
+                        <input type="text" placeholder="Reservation ID" name="id" value="">
+                        <input type="text" placeholder="Booker id" name="bid" value="">
+                        <input type="text" placeholder="Booker Name" name="email" value="">
+                        <input type="phone" placeholder="Phone Number" name="phone" value="">
+                        <input type="date" placeholder="Date in" name="din" value="">
+                        <input type="date" placeholder="Date out" name="dout" value="">
+                        <input type="text" placeholder="Description" name="des" value="">
+                        <!-- Save changes button-->
+                        <a href="/admin/editReservation"><button class="btn book-btn">Save changes</button></a>
+                        <a href="/admin/editReservation"><button class="btn book-btn">Go back</button></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>

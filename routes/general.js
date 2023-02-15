@@ -198,30 +198,5 @@ router.get('/logout', isLoggedIn, (req,res)=>{
     res.redirect('/loginform')
 })
 
-//login for admin
-function isLoggedInAdmin(req,res,next)
-{
-    if (req.session.userId)
-        next();
-    else res.redirect('/adminLogin');
-}
-
-function isLoggedOutAdmin(req,res,next){
-    if (req.session.userId)
-        res.redirect('/adminDashboard');
-    else next();
-}
-
-router.get('/adminDashboard', (req, res) => {
-    res.render('adminDashboard.ejs');
-}) 
-
-// router.get('/adminDashboard', isLoggedInAdmin, (req, res) => {
-//     res.render('adminDashboard.ejs');
-// }) //must login to see
-
-router.get('/adminLogin', isLoggedOutAdmin, (req, res) => {
-    res.render('adminLogin.ejs',{message:req.flash('error')});
-})//if already logged in, redirect to /adminDashboard
 
 module.exports = router

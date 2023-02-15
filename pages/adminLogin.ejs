@@ -48,11 +48,11 @@
 <body>
     <div class="container" id="container">
         <!-- <div class="form-container sign-in-container"> -->
-            <form method="post" action="/signin">
+            <form method="post" action="/admin/login">
                 <h1 style="padding-bottom: 15px">Login (Boss Only)</h1>
-                <!-- <% if (message) { %>
+                <% if (message) { %>
                     <div class="alert alert-info"><%= message %></div>
-                <% } %> -->
+                <% } %>
                 <input type="email" name="email" placeholder="Email" id="email" required style="width: 300px;">
                 <div class="password-container">
                     <input type="password" placeholder="Password" id="password" name="password" required >
