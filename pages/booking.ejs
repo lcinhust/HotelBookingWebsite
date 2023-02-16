@@ -179,10 +179,12 @@
                                                 <span class="room-title" >Room 1:</span>
                                                 <label class="booking-label" for="room-0">Choose the type of room</label>
                                                 <select name="room[]" id="room-0" required style="margin-top: 10px;">
-                                                    <option value="1">Single (Max:1 person)</option>
-                                                    <option value="2">Double (Max:2 people)</option>
-                                                    <option value="3">Family Suite (Max: 4 people)</option>
-                                                    <option value="4">President (Max:4 people)</option>
+                                                    <option value="1">Single (Max: 1 person)</option>
+                                                    <option value="2">Double (Max: 2 people)</option>
+                                                    <option value="3">Triple (Max: 3 people)</option>
+                                                    <option value="4">Quad (Max: 4 people)</option>
+                                                    <option value="5">President (Max: 2 people)</option>
+                                                    <option value="6">Rooftop (Max: 2 people)</option>
                                                 </select>
                                             </div>
                                             <div class="room-control">
@@ -197,6 +199,13 @@
                                     </div>
                                 </div>
                                 
+                                <% if (messages && messages.length > 0) { %>
+                                    <div class="alert alert-danger">
+                                      <% messages.forEach(function(error) { %>
+                                        <p><%= error %></p>
+                                      <% }) %>
+                                    </div>
+                                  <% } %>
                                 
                                 <li>
                                     <button type="submit" class="btn btn-white">Submit</button>
@@ -222,10 +231,12 @@
                                     <span class="room-title" >Room ${roomList.length+1}:</span>
                                     <label class="booking-label" for="${newRoomId}">Choose the type of room</label>
                                     <select name="room[]" id="${newRoomId}" required style="margin-top: 10px;">
-                                        <option value="1">Single (Max:1 person)</option>
-                                        <option value="2">Double (Max:2 people)</option>
-                                        <option value="3">Family Suite (Max: 4 people)</option>
-                                        <option value="4">President (Max:4 people)</option>
+                                        <option value="1">Single (Max: 1 person)</option>
+                                        <option value="2">Double (Max: 2 people)</option>
+                                        <option value="3">Triple (Max: 3 people)</option>
+                                        <option value="4">Quad (Max: 4 people)</option>
+                                        <option value="5">President (Max: 2 people)</option>
+                                        <option value="6">Rooftop (Max: 2 people)</option>
                                     </select>
                                 </div>
                                 <div class="room-control">

@@ -60,6 +60,10 @@
 
     <main>
         <!-- info section -->
+        <% if (message && message.length > 0) { %>
+            <div class="alert alert-success"><%= message[0] %></div>
+          <% } %>
+          
         <section class="info">
             <div class="container">
                 <div class="row">

@@ -6,6 +6,7 @@ const flash=require('connect-flash');
 const bodyParser = require('body-parser');
 const usersRouter = require('./routes/users');
 const generalRouter = require('./routes/general');
+const bookingRouter = require('./routes/booking');
 
 
 const app = express();
@@ -33,6 +34,7 @@ app.use((req,res,next)=>{
 
 app.use(generalRouter);
 app.use(usersRouter);
+app.use(bookingRouter);
 
 
 
