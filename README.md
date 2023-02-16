@@ -6,14 +6,14 @@
 
 ### Database Design 
 
-### Features
-
 ### Used Languages
 * EJS
 * CSS
 * JavaScript (ExpressJS)
 ### Used Database
 * MySQL
+
+### Features
 
 ## Setup
 1. Press the **Fork** button (top right the page) to save copy of this project on your account.
