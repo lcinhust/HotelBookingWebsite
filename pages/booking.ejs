@@ -18,34 +18,7 @@
             // check email
             validateEmailAddress('email');
 
-            // check room
-            validateSelect('room');
-
-            // check guest
-            validateSelect('guest');
-
-            // check children
-            validateSelect('children');
-
-            // Arrival validation 
-            validateSelect('day');
-            validateSelect('month');
-            validateSelect('year');
-            validateSelect('hour');
-            validateSelect('timePeriod');
-
-            // Departure validation
-            validateSelect('departure_day');
-            validateSelect('departure_month');
-            validateSelect('departure_year');
-            validateSelect('departure_hour');
-            validateSelect('timeperiodDeparture');
-
-            //check free pickup
-            validateSelect('freePickUp');
-
-            //check passport number
-            // validatePassportNumber('freePickUp');
+            
         }
 
         // validate my email
@@ -81,31 +54,6 @@
                 }
             }
         }
-
-        // validate the room
-        // function validateSelect(select) {
-        //     var dropdown = document.getElementById(select);
-        //     if (dropdown.value === "-1") {
-        //         alert("Please select any options from "+select);
-        //         return false;
-        //     }
-        // }
-
-        // // validate passport number
-        // function validatePassportNumber(number) {
-        //     var passportNo = document.getElementById(targetId);
-        //     var regExPassportNumber = /^(?!^0+$)[a-zA-Z0-9]{3,20}$/;
-        //     if (passportNo.value === "") {
-        //         alert("Passport Number must be filled out");
-        //         return false;
-        //     } else {
-        //         if (!regExPassportNumber.test(passportNo.value)) {
-        //             alert("Please enter passport number in correct format");
-        //             passportNo.focus();
-        //             return false;
-        //         }
-        //     }
-        // }
     </script>
 </head>
 
@@ -160,12 +108,61 @@
                                         <h3>Select your dates</h3>
                                     </div>
                                     <div class="select-date-content">
-                                        <label for="arrival-date" class="booking-label">Arrival date</labe>
+                                        <label for="arrival-date" class="booking-label" >Arrival date</labe>
                                         <input type="date" id="arrival-date" name="arrival-date" required>
                                         <label for="departure-date" class="booking-label">Departure date</label>
                                         <input type="date" id="departure-date" name="departure-date" required>
                                     </div>
                                 </div>
+
+                                <script>
+                                    // select the elements
+                                    const arrivalInput = document.getElementById('arrival-date');
+                                    const departureInput = document.getElementById('departure-date');
+
+                                    // set the min and max date for the arrival and departure inputs
+                                    arrivalInput.min = new Date().toISOString().split("T")[0];
+
+                                    function setDepartureMinDate() {
+                                    if (arrivalInput.value !== '') {
+                                        const minDepartureDate = new Date(arrivalInput.value);
+                                        minDepartureDate.setDate(minDepartureDate.getDate() + 1);
+                                        if (minDepartureDate <= new Date()) {
+                                        const today = new Date();
+                                        today.setDate(today.getDate() + 1);
+                                        departureInput.min = today.toISOString().split("T")[0];
+                                        } else {
+                                        departureInput.min = minDepartureDate.toISOString().split("T")[0];
+                                        }
+                                    } else {
+                                        const today = new Date();
+                                        today.setDate(today.getDate() + 1);
+                                        departureInput.min = today.toISOString().split("T")[0];
+                                    }
+                                    }
+
+                                    function setArrivalMaxDate() {
+                                    if (departureInput.value !== '') {
+                                        const maxArrivalDate = new Date(departureInput.value);
+                                        maxArrivalDate.setDate(maxArrivalDate.getDate() - 1);
+                                        arrivalInput.max = maxArrivalDate.toISOString().split("T")[0];
+                                    } else {
+                                        arrivalInput.max = null;
+                                    }
+                                    }
+
+                                    // set the initial min date for the departure input
+                                    setDepartureMinDate();
+
+                                    // add event listeners
+                                    arrivalInput.addEventListener('input', function() {
+                                    setDepartureMinDate();
+                                    });
+
+                                    departureInput.addEventListener('input', function() {
+                                    setArrivalMaxDate();
+                                    });
+                                </script>
 
                                 <!-- Select room -->
 

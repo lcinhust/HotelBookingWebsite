@@ -853,12 +853,9 @@ textarea {
 
 /* success and error message */
 .alert-info {
-    background-color: #f8d7da;
-    color: #da0c21;
-    border: 1px solid #f5c6cb;
+    color: #f0162c;
     padding: 15px;
-    margin-bottom: 20px;
-    font-size: 2rem;
+    font-size: 1.2rem;
   }
 
   .alert-success {
