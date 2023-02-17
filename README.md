@@ -4,7 +4,7 @@
 
 ## Overview
 
-### Database Design 
+### Database Diagram
 
 ### Used Languages
 * EJS
