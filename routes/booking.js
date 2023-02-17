@@ -103,7 +103,7 @@ router.post('/booking', async (req, res) => {
                 errors.push(`Not enough rooms available of type ${roomType}`);
             }
             let price = await calculatePrice(roomType, arrivalDate, departureDate);
-            return { arrivalDate, departureDate, type: roomType, nameofType: roomTypeName.get(roomType), roomOfType: roomIds, numRoomsOfType: numRoomsOfType, price: price, numRoomsChosen: roomCounts[roomType] };
+            return { arrivalDate, departureDate, userId: req.session.userId, type: roomType, nameofType: roomTypeName.get(roomType), roomOfType: roomIds, numRoomsOfType: numRoomsOfType, price: price, numRoomsChosen: roomCounts[roomType] };
         }));
         if (errors.length>0){
             req.flash('errors',errors);

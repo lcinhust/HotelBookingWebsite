@@ -21,7 +21,7 @@
                 <p class="numRoomsChosen">Choose <%= type.numRoomsChosen %> rooms</p>
                 <% type.roomOfType.forEach(room => { %>
                     <label for="<%= room %>" style="font-size: 20px; display: inline-flex; margin-right: 20px;">
-                    <input type="checkbox" id="<%= room %>" name="<%= room %>"
+                    <input type="checkbox" id="<%= room %>" name="rooms[]" value="<%= room %>"
                         style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
                     <%= room %>
                     </label>
@@ -30,6 +30,10 @@
             </div>
         <% }) %>
 
+        <input type="hidden" name="arrivalDate" value="<%= resData[0].arrivalDate %>">
+        <input type="hidden" name="departureDate" value="<%= resData[0].departureDate %>">
+        <input type="hidden" name="userId" value="<%= resData[0].userId %>">
+
         <!-- modal-->
         <br><br><br>
         <div class="container">
@@ -37,7 +41,7 @@
             <div class="modal" id="modal">
                 <div class="modal-header">
                     <p>Total Purchase</p>
-                    <button data-close-button class="close-button">&times;</button>
+                    <button data-close-button class="close-button" type="button">&times;</button>
                 </div>
                 <div class="modal-body">
                     <% function dateFormatting(dateType){
@@ -109,7 +113,7 @@
                     limitCheckboxSelection("type<%= type.type %>", <%= type.numRoomsChosen %>);
                 <% }) %>
 
-                
+              
 
                 const openModalButtons = document.querySelectorAll('#priceConfirm[data-modal-target]');
                 //lower limit
