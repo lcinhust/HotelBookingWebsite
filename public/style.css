@@ -352,6 +352,10 @@ label #close {
     color: var(--white-pinkish-color);
 }
 
+/* [type="checkbox"]{
+    vertical-align:middle;
+} */
+
 #check {
     display: none;
 }

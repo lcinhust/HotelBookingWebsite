@@ -18,7 +18,7 @@
         <% resData.forEach(type=>{ %>
             <div class="container typeContainer" id="type<%= type.type %>">
                 <h3><%= type.nameofType %></h3>
-                <p class="numRoomsChosen">Choose <%= type.numRoomsChosen %> rooms</p>
+                <p class="numRoomsChosen">Choose <%= type.numRoomsChosen %> room(s)</p>
                 <% type.roomOfType.forEach(room => { %>
                     <label for="<%= room %>" style="font-size: 20px; display: inline-flex; margin-right: 20px;">
                     <input type="checkbox" id="<%= room %>" name="rooms[]" value="<%= room %>"

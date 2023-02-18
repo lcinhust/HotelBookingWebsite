@@ -38,7 +38,7 @@ router.post('/signin',(req,res)=>{
     if (!email | !password)
         res.status(404).json({message: 'Please enter all fields'});
     else{
-        db.query(`select * from account where email='${email}'`,(err,results)=>{
+        db.query(`select * from account where email='${email}' and type_of_account = 'booker'`,(err,results)=>{
             if (err) throw err;
             if (results.length>0){
                 const user=results[0];

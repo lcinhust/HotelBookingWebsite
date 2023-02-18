@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const usersRouter = require('./routes/users');
 const generalRouter = require('./routes/general');
 const bookingRouter = require('./routes/booking');
+const adminRouter = require('./routes/admin');
+
 
 
 const app = express();
@@ -35,6 +37,7 @@ app.use((req,res,next)=>{
 app.use(generalRouter);
 app.use(usersRouter);
 app.use(bookingRouter);
+app.use(adminRouter);
 
 
 

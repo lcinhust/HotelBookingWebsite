@@ -106,9 +106,9 @@ async function addReservation(arrivalDate, departureDate, booker_id) {
 async function addPayment(reservationID, totalPrice) {
     try {
         await new Promise((resolve, reject) => {
-            db.query(`insert into payment(payment_date,reservation_id,total_price)
+            db.query(`insert into payment(reservation_id,total_price)
             values
-            (NOW(),?,?)`, [reservationID, totalPrice], (err, results) => {
+            (?,?)`, [reservationID, totalPrice], (err, results) => {
                 if (err) reject(new Error(err.message));
                 resolve();
             });

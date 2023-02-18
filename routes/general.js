@@ -63,11 +63,11 @@ router.get('/profile', isLoggedIn, (req, res) => {
               where account.id=${req.session.userId}`, (err,results)=>{
                 if (err) throw err;
                 const userData=results[0];
-                db.query(`select reservation_id,date_in,date_out,number
-                        from reservation a join room_reserved b on a.id=b.reservation_id 
-                        join room c on b.room_id=c.id
-                        where booker_id=${req.session.userId}
-                        order by reservation_id`,(err,results)=>{
+                db.query(`select b.reservation_id,date_in,date_out,number,a.status
+                from reservation a join room_reserved b on a.id=b.reservation_id 
+                join room c on b.room_id=c.id join payment d on a.id=d.reservation_id
+                where booker_id=${req.session.userId}
+                order by reservation_id`,(err,results)=>{
                             if (err) throw err;
                             const userReservation = [];
                             let i=0; //number of reservations
@@ -78,7 +78,8 @@ router.get('/profile', isLoggedIn, (req, res) => {
                                         reservation_id: element.reservation_id,
                                         date_in: element.date_in,
                                         date_out: element.date_out,
-                                        roomList: [element.number]
+                                        roomList: [element.number],
+                                        status: element.status
                                     });
                                     i++;
                                 }

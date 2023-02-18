@@ -89,6 +89,7 @@
                             <th>Room number</th>
                             <th>Arrival Date</th>
                             <th>Departure Date</th>
+                            <th>Status</th>
                         </tr>
                     </thead> 
                     <tbody>
@@ -98,6 +99,7 @@
                                 <td data-label="RoomNum" style="font-size: 20px; color: aliceblue;"><%= element.roomList %></td>
                                 <td data-label="Arrival date" style="font-size: 20px; color: aliceblue;"><%= dateFormatting(element.date_in) %></td>
                                 <td data-label="Departure Date" style="font-size: 20px; color: aliceblue;"><%= dateFormatting(element.date_out) %></td>
+                                <td data-label="Status" style="font-size: 20px; color: aliceblue;"><%= element.status %></td>
                             </tr>
                         <% }) %>
                     </tbody>
