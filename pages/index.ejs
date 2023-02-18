@@ -44,6 +44,9 @@
                    
                 </ul>
             </nav>
+            <% if (message && message.length > 0) { %>
+                <div class="alert alert-success"><%= message[0] %></div>
+              <% } %>
         </div>
         <div id="hero" class="hero">
             <div class="container">
@@ -60,9 +63,7 @@
 
     <main>
         <!-- info section -->
-        <% if (message && message.length > 0) { %>
-            <div class="alert alert-success"><%= message[0] %></div>
-          <% } %>
+        
           
         <section class="info">
             <div class="container">

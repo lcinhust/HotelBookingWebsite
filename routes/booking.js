@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const db = require('../database');
@@ -33,10 +32,6 @@ async function getRoomsOfType(roomType, arrivalDate, departureDate) {
     }
     return response.map(row => row.number);
 }
-
-// AND NOT IN (
-//     SELECT 
-//     FROM 
 
 async function calculatePrice(type_id, arrivalDate, departureDate) {
     type_id = Number(type_id);
@@ -78,10 +73,87 @@ async function calculatePrice(type_id, arrivalDate, departureDate) {
     }
 }
 
+async function nextReservationID() {
+    let response;
+    try {
+        response = await new Promise((resolve, reject) => {
+            db.query(`SELECT MAX(id) FROM reservation`, (err, results) => {
+                if (err) reject(new Error(err.message));
+                resolve(results[0]['MAX(id)']);
+            });
+        });
+    } catch (error) {
+        console.log(error);
+    }
+    return response;
+}
+
+async function addReservation(arrivalDate, departureDate, booker_id) {
+    try {
+        await new Promise((resolve, reject) => {
+            db.query(`insert into reservation(date_in,date_out,booker_id)
+            values
+            (?,?,?)`, [arrivalDate, departureDate, booker_id], (err, results) => {
+                if (err) reject(new Error(err.message));
+                resolve();
+            });
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function addPayment(reservationID, totalPrice) {
+    try {
+        await new Promise((resolve, reject) => {
+            db.query(`insert into payment(payment_date,reservation_id,total_price)
+            values
+            (NOW(),?,?)`, [reservationID, totalPrice], (err, results) => {
+                if (err) reject(new Error(err.message));
+                resolve();
+            });
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function findRoomID(roomNumber) {
+    let response;
+    try {
+        response = await new Promise((resolve, reject) => {
+            db.query(`select id
+            from room
+            where number = ?`, [roomNumber], (err, results) => {
+                if (err) reject(new Error(err.message));
+                resolve(results[0]['id']);
+            });
+        });
+    } catch (error) {
+        console.log(error);
+    }
+    return response;
+}
+
+async function addRoomReserved(reservationId, roomId) {
+    try {
+        await new Promise((resolve, reject) => {
+            db.query(`insert into room_reserved(reservation_id,room_id)
+            values
+            (?,?)`, [reservationId, roomId], (err, results) => {
+                if (err) reject(new Error(err.message));
+                resolve();
+            });
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 router.post('/booking', async (req, res) => {
-    try{
+    try {
         const { 'arrival-date': arrivalDate, 'departure-date': departureDate } = req.body;
-        console.log(arrivalDate, departureDate);
+        // console.log(arrivalDate, departureDate);
         const roomTypeName = new Map([
             ['1', 'Single'],
             ['2', 'Double'],
@@ -94,38 +166,55 @@ router.post('/booking', async (req, res) => {
             counts[room] = (counts[room] || 0) + 1;
             return counts;
         }, {});
-        console.log(roomCounts);
-        let errors=[];
+        // console.log(roomCounts);
+        let errors = [];
         const resData = await Promise.all(Object.keys(roomCounts).map(async roomType => {
             const roomIds = await getRoomsOfType(roomType, arrivalDate, departureDate);
             const numRoomsOfType = roomIds.length;
             if (numRoomsOfType < roomCounts[roomType]) {
-                errors.push(`Not enough rooms available of type ${roomType}`);
+                errors.push(`Not enough ${roomTypeName.get(roomType)} rooms available`);
             }
             let price = await calculatePrice(roomType, arrivalDate, departureDate);
             return { arrivalDate, departureDate, userId: req.session.userId, type: roomType, nameofType: roomTypeName.get(roomType), roomOfType: roomIds, numRoomsOfType: numRoomsOfType, price: price, numRoomsChosen: roomCounts[roomType] };
         }));
-        if (errors.length>0){
-            req.flash('errors',errors);
+        if (errors.length > 0) {
+            req.flash('errors', errors);
             res.redirect('/booking');
         }
-        else
-        {
-            console.log(resData);
-            res.render('roomSelect.ejs', {resData} );
+        else {
+            // console.log(resData);
+            res.render('roomSelect.ejs', { resData });
         }
     }
-    catch(err){
+    catch (err) {
         console.log(err);
         res.status(500).send('Internal server error');
     }
-    
 });
 
-router.post('/roomSelect',(req,res)=>{
-    console.log(req.body);
-    req.flash('success','Thanks for your booking. Wish you have a good time at our hotel');
-    res.redirect('/index');
+router.post('/roomSelect', async (req, res) => {
+    try {
+        console.log(req.body);
+        // // Get the next reservation ID
+        const nextID = await nextReservationID() + 1;
+        console.log(nextID);
+        // // Add the reservation using the next ID
+        await addReservation(req.body.arrivalDate, req.body.departureDate, req.body.userId);
+        await addPayment(nextID,req.body.totalPrice);
+        // Extract the room IDs from the request body and add them to an array
+        const roomNumbers = Object.values(req.body.rooms);
+        // Add a reservation for each room using the next ID
+        for (let i = 0; i < roomNumbers.length; i++) {
+            const roomId = await findRoomID(Number(roomNumbers[i]));
+            await addRoomReserved(nextID, roomId);
+        }
+        req.flash('success', 'Thanks for your booking. Wish you have a good time at our hotel');
+        res.redirect('/index');
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send('Internal server error');
+    }
 })
 
 module.exports = router
