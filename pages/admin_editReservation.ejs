@@ -18,16 +18,11 @@
                     <br><br>
                     <form method="POST" action="">
                         <!-- Form Row-->
-                        <input type="text" placeholder="Reservation ID" name="id" value="">
-                        <input type="text" placeholder="Booker id" name="bid" value="">
-                        <input type="text" placeholder="Booker Name" name="email" value="">
-                        <input type="phone" placeholder="Phone Number" name="phone" value="">
-                        <input type="date" placeholder="Date in" name="din" value="">
-                        <input type="date" placeholder="Date out" name="dout" value="">
-                        <input type="text" placeholder="Description" name="des" value="">
-                        <!-- Save changes button-->
+                        <input type="date" placeholder="" name="din" value="<%= userReservation.date_in %>">
+                        <input type="date" placeholder="" name="dout" value="<%= userReservation.date_out %>">
+                        <input type="text" placeholder="" name="des" value="<%= userReservation.description %>">
                         <a href="/admin/editReservation"><button class="btn book-btn">Save changes</button></a>
-                        <a href="/admin/editReservation"><button class="btn book-btn">Go back</button></a>
+                        <a href="/admin/reservation"><button class="btn book-btn" type="button">Go back</button></a>
                     </form>
                 </div>
             </div>

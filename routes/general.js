@@ -18,7 +18,7 @@ function isLoggedIn(req,res,next)
 }
 
 router.get('/index', (req, res) => {
-    res.render('index.ejs');
+    res.render('index.ejs', {message: req.flash('success')});
 })
 
 router.get('/rooms', (req, res) => {
@@ -30,12 +30,8 @@ router.get('/about', (req, res) => {
 })
 
 router.get('/booking', isLoggedIn, (req, res) => {
-    res.render('booking.ejs');
+    res.render('booking.ejs',{messages: req.flash('errors')});
 }) //must log in to see
-
-router.post('/booking',(req,res)=>{
-    console.log(req.body);
-})
 
 router.get('/roomSelect', isLoggedIn, (req, res) => {
     res.render('roomSelect.ejs');
@@ -95,6 +91,7 @@ router.get('/profile', isLoggedIn, (req, res) => {
                         })
               })
 })
+
 router.get('/editProfile', isLoggedIn, (req, res) => {
     const id=req.query.id;
     if (id)  //param id exists
@@ -197,6 +194,5 @@ router.get('/logout', isLoggedIn, (req,res)=>{
     req.session.destroy();
     res.redirect('/loginform')
 })
-
 
 module.exports = router

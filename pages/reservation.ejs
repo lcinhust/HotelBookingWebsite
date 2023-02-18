@@ -39,10 +39,24 @@
             border-radius: 5px;">Search</button>
         </form>
     </div>
+    <% if(message) { %>
+        <p> <%= message%></p>
+     <%} %>
+    <% if(userReservation){ %>
     <div class="container" align="center">
-        <a href="/admin/editReservation"><button class="btn book-btn" style="cursor: pointer;">Edit reservation</button></a>
-        <button class="btn book-btn" style="cursor: pointer;">Check in</button>
-        <button class="btn book-btn" style="cursor: pointer;">Check out</button>
+        <p>id: <%= userReservation.id %></p>
+        <p>bid: <%= userReservation.booker_id %></p>
+        <p>name: <%= userReservation.name %></p>
+        <p>date in: <%= userReservation.date_in %></p>
+        <p>date out: <%= userReservation.date_out %></p>
+        <p>description: <%= userReservation.description %></p>
+        <p>status: <%= userReservation.status %></p>
+        <p>price: <%= userReservation.price %></p>
+        <p>payment date: <%= userReservation.payment_date %></p>
+        <!-- <a href="/admin/editReservation/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Edit reservation</button></a> -->
+        <a href="/admin/checkin/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Check in</button></a>
+        <a href="/admin/checkout/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Check out</button></a>
     </div>
+    <% } %>
     <script src="tab.js"></script>
 </body>

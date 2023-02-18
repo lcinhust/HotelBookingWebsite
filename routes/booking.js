@@ -3,46 +3,26 @@ const router = express.Router();
 const db = require('../database');
 
 /**
- * It returns a promise that resolves to the value of the room number.
- * @param array - array of rooms
- * @param cap - capacity of the room
- * @returns 1. The first time it is called, it returns the number of the first room.
+ * It returns an array of room numbers of a given room type.
+ * @param roomType - id of type of room
+ * @returns An array of room numbers which type is the same with roomType.
  */
-async function getRoomsByCapacity(array, cap) { 
+async function getRoomsOfType(roomType, arrivalDate, departureDate) {
     let response;
     try {
         response = await new Promise((resolve, reject) => {
-            // add type, description of room
-            db.query(`select r.id, r.number 
-            from room r
-            inner join type t on r.type_id = t.id 
-            where t.capacity='${cap}' and r.status = 0`, (err, results) => {
-                if (err) reject(new Error(err.message));
-                var room = { success: true, id: results[0].number }; 
-                array.push({ ...room });
-                resolve(room.id); // results/room.number 
-            });
-        });
-    } catch (error) {
-        console.log(error);
-    }
-    console.log(response);
-    return response;
-}
-
-/**
- * It updates the status of a room in the database to 1 (occupied) if the room number is equal to the
- * room number passed to the function (only for choosing new rooms, will be changed to 0 by the next function).
- * @param roomNumber - the room number that the user wants to book
- * @returns The response is being returned.
- */
-async function updateRoomStatus(roomNumber) {
-    let response;
-    try {
-        response = await new Promise((resolve, reject) => {
-            db.query(`update room 
-            set status = 1 
-            where number = '${db.escape(roomNumber)}'`, (err, results) => {
+            db.query(`SELECT number 
+                    FROM room 
+                    WHERE type_id = ?
+                    AND id NOT IN (
+                        SELECT room_id 
+                        FROM room_reserved
+                        WHERE reservation_id IN(
+                            SELECT id
+                            FROM reservation
+                            WHERE (status = 'accept' OR status = 'pending' OR status = 'checkin') AND ((date_in <= ? AND ? < date_out) OR (date_in < ? AND ? <= date_out) OR (? < date_in AND date_out < ?))
+                        )
+                    )`, [roomType, arrivalDate, arrivalDate, departureDate, departureDate, arrivalDate, departureDate], (err, results) => {
                 if (err) reject(new Error(err.message));
                 resolve(results);
             });
@@ -50,90 +30,101 @@ async function updateRoomStatus(roomNumber) {
     } catch (error) {
         console.log(error);
     }
-    return response;
+    return response.map(row => row.number);
 }
 
-/**
- * Change all rooms 
- * @param rooms
- * @returns The response is the result of the query.
- */
-async function resetRoomsStatus(rooms) {
-    let response;
+// AND NOT IN (
+//     SELECT 
+//     FROM 
+
+async function calculatePrice(type_id, arrivalDate, departureDate) {
+    type_id = Number(type_id);
+    const parsedArrivalDate = new Date(Date.parse(arrivalDate));
+    const parsedDepartureDate = new Date(Date.parse(departureDate));
+
     try {
-        response = await new Promise((resolve, reject) => {
-            let query = `update room set status = 0 where number in (`;
-            for (let i = 0; i < rooms.length; i++) {
-                if (i === rooms.length - 1) {
-                    query += `${rooms[i].id})`;
-                } else {
-                    query += `${rooms[i].id},`; 
+        const results = await new Promise((resolve, reject) => {
+            db.query(`
+            SELECT month, year, price_each_day
+            FROM month_price
+            WHERE type_id = ? `,
+                [type_id],
+                (error, results) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(results);
+                    }
                 }
-            }
-            db.query(query, (err, results) => {
-                if (err) reject(new Error(err.message));
-                resolve(results);
-            });
+            );
         });
+
+        // Calculate the total price for the entire stay
+        let totalPrice = 0;
+        let currentDate = new Date(parsedArrivalDate.getTime());
+        while (currentDate < parsedDepartureDate) {
+            const currentMonth = currentDate.getMonth() + 1;
+            const currentYear = currentDate.getFullYear();
+            const matchingRow = results.find((row) => row.month === currentMonth && row.year === currentYear);
+            if (matchingRow) {
+                totalPrice += matchingRow.price_each_day;
+            }
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return totalPrice;
     } catch (error) {
         console.log(error);
     }
-    return response;
 }
 
 router.post('/booking', async (req, res) => {
-    let { roomtype, adultNum, childrenNum, arrivalDay, arrivalMonth,
-        arrivalYear, departureDay, departureMonth, departureYear } = req.body;
-    adultNum = parseInt(adultNum);
-    childrenNum = parseInt(childrenNum);
-    let capacity = adultNum + childrenNum;
-    let rooms = [];
-    // console.log(capacity);
-    if (adultNum * 3 < childrenNum) {
-        return res.status(400).json({ success: false, msg: 'The number of children is too high.' })
+    try{
+        const { 'arrival-date': arrivalDate, 'departure-date': departureDate } = req.body;
+        console.log(arrivalDate, departureDate);
+        const roomTypeName = new Map([
+            ['1', 'Single'],
+            ['2', 'Double'],
+            ['3', 'Triple'],
+            ['4', 'Quad'],
+            ['5', 'President'],
+            ['6', 'Rooftop']
+        ]);
+        const roomCounts = req.body.room.reduce((counts, room) => {
+            counts[room] = (counts[room] || 0) + 1;
+            return counts;
+        }, {});
+        console.log(roomCounts);
+        let errors=[];
+        const resData = await Promise.all(Object.keys(roomCounts).map(async roomType => {
+            const roomIds = await getRoomsOfType(roomType, arrivalDate, departureDate);
+            const numRoomsOfType = roomIds.length;
+            if (numRoomsOfType < roomCounts[roomType]) {
+                errors.push(`Not enough rooms available of type ${roomType}`);
+            }
+            let price = await calculatePrice(roomType, arrivalDate, departureDate);
+            return { arrivalDate, departureDate, userId: req.session.userId, type: roomType, nameofType: roomTypeName.get(roomType), roomOfType: roomIds, numRoomsOfType: numRoomsOfType, price: price, numRoomsChosen: roomCounts[roomType] };
+        }));
+        if (errors.length>0){
+            req.flash('errors',errors);
+            res.redirect('/booking');
+        }
+        else
+        {
+            console.log(resData);
+            res.render('roomSelect.ejs', {resData} );
+        }
     }
-    else if (capacity <= 3) { // 1 room
-        let cap1 = capacity;
-        let roomNumber1 = await getRoomsByCapacity(rooms, cap1);
-        await updateRoomStatus(roomNumber1)
-            .then(() => {
-                res.status(200).json(rooms);
-            })
-            .then(() => {
-                resetRoomsStatus(rooms);
-            });
+    catch(err){
+        console.log(err);
+        res.status(500).send('Internal server error');
     }
-    else if (capacity < 6) { // 2 rooms
-        let cap1 = parseInt(capacity / 2 + 0.5);
-        let cap2 = capacity - cap1;
-        let roomNumber1 = await getRoomsByCapacity(rooms, cap1);
-        await updateRoomStatus(roomNumber1);
-        let roomNumber2 = await getRoomsByCapacity(rooms, cap2);
-        await updateRoomStatus(roomNumber2)
-            .then(() => {
-                res.status(200).json(rooms);
-            })
-            .then(() => {
-                resetRoomsStatus(rooms);
-            });
-    }
-    else if (capacity >= 6) { // 3 rooms
-        let cap1 = parseInt(capacity / 3 + 0.5);
-        let cap2 = parseInt(capacity / 3 + 0.5);
-        let cap3 = capacity - cap1 - cap2;
-        let roomNumber1 = await getRoomsByCapacity(rooms, cap1);
-        await updateRoomStatus(roomNumber1);
-        let roomNumber2 = await getRoomsByCapacity(rooms, cap2);
-        await updateRoomStatus(roomNumber2);
-        let roomNumber3 = await getRoomsByCapacity(rooms, cap3);
-        await updateRoomStatus(roomNumber3)
-            .then(() => {
-                res.status(200).json(rooms);
-            })
-            .then(() => {
-                resetRoomsStatus(rooms);
-            });
-    }
+    
+});
+
+router.post('/roomSelect',(req,res)=>{
+    console.log(req.body);
+    req.flash('success','Thanks for your booking. Wish you have a good time at our hotel');
+    res.redirect('/index');
 })
 
 module.exports = router
