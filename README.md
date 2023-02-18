@@ -6,12 +6,10 @@
 
 ### Database Schema
 
-### Used Languages
-* EJS
-* CSS
-* JavaScript (ExpressJS)
-### Used Database
-* MySQL
+### Technical Specifications
+* Frontend: EJS, CSS, Javascript
+* Backend: ExpressJS
+* Database: MySQL
 
 ### Features
 
@@ -24,6 +22,20 @@
 4. Import & execute the SQL queries from the Database folder to the MySQL database.
 5. Import the project in any IDE that support the aforementioned programming languages.
 6. Deploy & Run the application with `npm run dev` :D
+
+## Project Structure
+    ├── pages          
+    |   └── about.ejs
+    |   └── adminDashboard.ejs
+    |   └── adminLogin.ejs
+    |   └── js
+    ├── templates                   # html files 
+    ├── utils                       # code files
+    ├── app           
+    ├── bookingapp.sql      # tables and queries used for this project
+    ├── .gitignore
+    ├── requirements.txt
+    └── README.md
 
 ### Contributing 🔧
 If you want to contribute to this project and make it better with new ideas, your pull request is very welcomed.
