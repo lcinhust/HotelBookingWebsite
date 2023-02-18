@@ -24,18 +24,23 @@
 6. Deploy & Run the application with `npm run dev` :D
 
 ## Project Structure
-    ├── pages          
-    |   └── about.ejs
-    |   └── adminDashboard.ejs
-    |   └── adminLogin.ejs
-    |   └── js
-    ├── templates                   # html files 
-    ├── utils                       # code files
-    ├── app           
-    ├── bookingapp.sql      # tables and queries used for this project
+    ├── pages               #ejs files
+    ├── public              
+    ├── routes              #code files
+    |   └── admin.js
+    |   └── booking.js
+    |   └── general.js
+    |   └── users.js    
+    ├── bookingapp_query    # tables and queries used for this project
+    |   └── bookingapp.sql
+    |   └── bookingapp_diagram
+    ├── .env
     ├── .gitignore
-    ├── requirements.txt
     └── README.md
+    ├── database.js
+    ├── index.js
+    ├── package-lock.json
+    ├── pakage.json
 
 ### Contributing 🔧
 If you want to contribute to this project and make it better with new ideas, your pull request is very welcomed.
