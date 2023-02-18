@@ -40,7 +40,7 @@
     ├── database.js
     ├── index.js
     ├── package-lock.json
-    ├── pakage.json
+    └── package.json
 
 ### Contributing 🔧
 If you want to contribute to this project and make it better with new ideas, your pull request is very welcomed.
