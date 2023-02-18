@@ -26,13 +26,6 @@ router.get('/contact', (req, res) => {
     res.render('contact.ejs');
 })
 
-router.get('/loginform', isLoggedOut, (req, res) => {
-    res.render('loginform.ejs',{message:req.flash('error')});
-})//if already logged in, redirect to /booking
-
-router.get('/signupform', (req, res) => {
-    res.render('signupform.ejs',{message:req.flash('error')});
-})
 
 router.get('/restaurant', (req, res) => {
     res.render('restaurant.ejs');
@@ -54,6 +47,14 @@ function isLoggedIn(req,res,next)
         next();
     else res.redirect('/loginform');
 }
+
+router.get('/loginform', isLoggedOut, (req, res) => {
+    res.render('loginform.ejs',{message:req.flash('error')});
+})//if already logged in, redirect to /booking
+
+router.get('/signupform', (req, res) => {
+    res.render('signupform.ejs',{message:req.flash('error')});
+})
 
 router.get('/profile', isLoggedIn, (req, res) => {
     db.query(`select * 
@@ -193,8 +194,5 @@ router.get('/logout', isLoggedIn, (req,res)=>{
 })
 
 
-
-
-
-
 module.exports = router
+
