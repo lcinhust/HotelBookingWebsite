@@ -31,7 +31,7 @@
 	<!-- Tab content with title -->
 	<div align="center">
 		<br><br>
-		<table>
+		<table style="width: 100%; max-width: 100%; table-layout: fixed;">
 			<thead>
 				<tr> <!-- display column name -->
 					<th>ID</th>
@@ -49,37 +49,37 @@
 
 					<% userReservation.forEach(element=>{ %>
 						<tr>
-							<td data-label="ID" style="font-size: 20px; color: aliceblue;">
+							<td data-label="ID" style="font-size: 17px; color: aliceblue;">
 								<%= element.id %>
 							</td> <!--insert into row values -->
-							<td data-label="Booker_id" style="font-size: 20px; color: aliceblue;">
+							<td data-label="Booker_id" style="font-size: 17px; color: aliceblue;">
 								<%= element.booker_id %>
 							</td>
-							<td data-label="Booker Name" style="font-size: 20px; color: aliceblue;">
+							<td data-label="Booker Name" style="font-size: 17px; color: aliceblue;">
 								<%= element.name %>
 							</td>
-							<td data-label="Phone Number" style="font-size: 20px; color: aliceblue;">
+							<td data-label="Phone Number" style="font-size: 17px; color: aliceblue;">
 								<%= element.phone %>
 							</td>
-							<td data-label="Date_in" style="font-size: 20px; color: aliceblue;">
+							<td data-label="Date_in" style="font-size: 17px; color: aliceblue;">
 								<%= element.date_in %>
 							</td>
-							<td data-label="Date_out" style="font-size: 20px; color: aliceblue;">
+							<td data-label="Date_out" style="font-size: 17px; color: aliceblue;">
 								<%= element.date_out %>
 							</td>
-							<td data-label="Description" style="font-size: 20px; color: aliceblue;">
+							<td data-label="Description" style="font-size: 17px; color: aliceblue;">
 								<%= element.description %>
 							</td>
 							<td>
 							<form method="POST" action="/admin/decline/<%= element.id %>">
-								<button class="">
+								<button class="decline-btn">
 									Decline
 								</button>
 							</form>
 						</td>
 						<td>
 							<form method="POST" action="/admin/accept/<%= element.id %>">
-								<button class="">
+								<button class="accept-btn">
 									Accept
 								</button>
 							</form>

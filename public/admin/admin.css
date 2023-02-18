@@ -6,6 +6,14 @@
     box-sizing: border-box;
 }
 
+.alert-info {
+    color: #f0162c ; 
+    padding: 15px ; 
+    font-size: 2rem ;
+    text-align: center;
+  }
+
+
 @font-face {
     font-family: "Herr Von Muellerhoff";
     src: url("../textfont/HerrVonMuellerhoff-Regular.ttf") format("truetype");
@@ -373,6 +381,10 @@ input[type=submit] {
     clear: both;
 }
 
+
+
+
+
 /* Media queries */
 @media screen and (max-width: 1000px) {
     .nav-item:not(:last-child) {
@@ -610,3 +622,4 @@ input[type=submit] {
         transform: translateY(-1rem);
     }
 }
+

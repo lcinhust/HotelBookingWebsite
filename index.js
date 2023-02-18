@@ -8,7 +8,7 @@ const usersRouter = require('./routes/users');
 const generalRouter = require('./routes/general');
 const bookingRouter = require('./routes/booking');
 const adminRouter = require('./routes/admin');
-const path = require('path')
+
 
 
 const app = express();
@@ -23,7 +23,7 @@ app.use(session({
 
 app.use(flash());
 
-app.use(express.static(path.join(__dirname,"public")));
+app.use(express.static('public'));
 app.set("view engine", "ejs");
 app.set('views', 'pages');
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -18,34 +18,7 @@
             // check email
             validateEmailAddress('email');
 
-            // check room
-            validateSelect('room');
-
-            // check guest
-            validateSelect('guest');
-
-            // check children
-            validateSelect('children');
-
-            // Arrival validation 
-            validateSelect('day');
-            validateSelect('month');
-            validateSelect('year');
-            validateSelect('hour');
-            validateSelect('timePeriod');
-
-            // Departure validation
-            validateSelect('departure_day');
-            validateSelect('departure_month');
-            validateSelect('departure_year');
-            validateSelect('departure_hour');
-            validateSelect('timeperiodDeparture');
-
-            //check free pickup
-            validateSelect('freePickUp');
-
-            //check passport number
-            // validatePassportNumber('freePickUp');
+            
         }
 
         // validate my email
@@ -81,31 +54,6 @@
                 }
             }
         }
-
-        // validate the room
-        // function validateSelect(select) {
-        //     var dropdown = document.getElementById(select);
-        //     if (dropdown.value === "-1") {
-        //         alert("Please select any options from "+select);
-        //         return false;
-        //     }
-        // }
-
-        // // validate passport number
-        // function validatePassportNumber(number) {
-        //     var passportNo = document.getElementById(targetId);
-        //     var regExPassportNumber = /^(?!^0+$)[a-zA-Z0-9]{3,20}$/;
-        //     if (passportNo.value === "") {
-        //         alert("Passport Number must be filled out");
-        //         return false;
-        //     } else {
-        //         if (!regExPassportNumber.test(passportNo.value)) {
-        //             alert("Please enter passport number in correct format");
-        //             passportNo.focus();
-        //             return false;
-        //         }
-        //     }
-        // }
     </script>
 </head>
 
@@ -149,224 +97,179 @@
                     <form action="/booking" method="post" id="book_reservation" onsubmit="validateForm()">
                         <div class="col-2">
                             <ul>
+                                <!-- Header-->
                                 <div class="menu-header">
                                     <h2 class="headline" style="color: #3e61a0;">Hotel Booking</h2>
                                 </div>
 
-                                <!-- name -->
-                                <li>
-                                    <span style="color: #3e61a0; font-size: 2rem;">Name *</span>
-                                    <div>
-                                        <input type="text" id="firstname" placeholder="First Name" required
-                                            style="margin-top: 3px;">
-                                        <input type="text" id="lastname" placeholder="Last Name" required
-                                            style="margin-top: 10px;">
+                                <!-- Select date-->
+                                <div class="select-date">
+                                    <div class="select-date-title">
+                                        <h3>Select your dates</h3>
                                     </div>
-                                </li>
-                                <br>
-
-                                <!-- email -->
-                                <li>
-                                    <span style="color: #3e61a0; font-size: 2rem;">Email *</span>
-                                    <div>
-                                        <input type="text" id="email" required placeholder="Email Address" required
-                                            style="margin-top: 10px;">
+                                    <div class="select-date-content">
+                                        <label for="arrival-date" class="booking-label" >Arrival date</labe>
+                                        <input type="date" id="arrival-date" name="arrival-date" required>
+                                        <label for="departure-date" class="booking-label">Departure date</label>
+                                        <input type="date" id="departure-date" name="departure-date" required>
                                     </div>
-                                </li>
-                                <br>
+                                </div>
 
-                                <!-- room type -->
-                                <li>
-                                    <span style="color: #3e61a0; font-size: 2rem;">Room Type *</span>
-                                    <div>
-                                        <select name="roomtype" id="room" required style="margin-top: 10px;">
-                                            <option selected disabled value="-1">Pick a room</option>
-                                            <option value="1">type1</option>
-                                            <option value="2">type2</option>
-                                            <option value="3">type3</option>
-                                            <option value="4">type4</option>
-                                            <option value="5">type5</option>
-                                            <option value="6">type6</option>
-                                        </select>
+                                <script>
+                                    // select the elements
+                                    const arrivalInput = document.getElementById('arrival-date');
+                                    const departureInput = document.getElementById('departure-date');
+
+                                    // set the min and max date for the arrival and departure inputs
+                                    arrivalInput.min = new Date().toISOString().split("T")[0];
+
+                                    function setDepartureMinDate() {
+                                    if (arrivalInput.value !== '') {
+                                        const minDepartureDate = new Date(arrivalInput.value);
+                                        minDepartureDate.setDate(minDepartureDate.getDate() + 1);
+                                        if (minDepartureDate <= new Date()) {
+                                        const today = new Date();
+                                        today.setDate(today.getDate() + 1);
+                                        departureInput.min = today.toISOString().split("T")[0];
+                                        } else {
+                                        departureInput.min = minDepartureDate.toISOString().split("T")[0];
+                                        }
+                                    } else {
+                                        const today = new Date();
+                                        today.setDate(today.getDate() + 1);
+                                        departureInput.min = today.toISOString().split("T")[0];
+                                    }
+                                    }
+
+                                    function setArrivalMaxDate() {
+                                    if (departureInput.value !== '') {
+                                        const maxArrivalDate = new Date(departureInput.value);
+                                        maxArrivalDate.setDate(maxArrivalDate.getDate() - 1);
+                                        arrivalInput.max = maxArrivalDate.toISOString().split("T")[0];
+                                    } else {
+                                        arrivalInput.max = null;
+                                    }
+                                    }
+
+                                    // set the initial min date for the departure input
+                                    setDepartureMinDate();
+
+                                    // add event listeners
+                                    arrivalInput.addEventListener('input', function() {
+                                    setDepartureMinDate();
+                                    });
+
+                                    departureInput.addEventListener('input', function() {
+                                    setArrivalMaxDate();
+                                    });
+                                </script>
+
+                                <!-- Select room -->
+
+                                <div class="select-room">
+                                    <div class="select-room-title">
+                                        <h3>Who is travelling with?</h3>
                                     </div>
-                                </li>
-                                <br>
-
-                                <!-- guest num -->
-                                <li>
-                                    <span style="color: #3e61a0; font-size: 2rem;">Number Of Adults *</span>
-                                    <div>
-                                        <select name="adultNum" id="guest" required style="margin-top: 10px;">
-                                            <option selected disabled value="-1">Number of Adults</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                        </select>
+                                    <div class="select-room-content" id="room-container">
+                                        <div class="room">
+                                            <div class="room-content">
+                                                <span class="room-title" >Room 1:</span>
+                                                <label class="booking-label" for="room-0">Choose the type of room</label>
+                                                <select name="room[]" id="room-0" required style="margin-top: 10px;">
+                                                    <option value="1">Single (Max: 1 person)</option>
+                                                    <option value="2">Double (Max: 2 people)</option>
+                                                    <option value="3">Triple (Max: 3 people)</option>
+                                                    <option value="4">Quad (Max: 4 people)</option>
+                                                    <option value="5">President (Max: 2 people)</option>
+                                                    <option value="6">Rooftop (Max: 2 people)</option>
+                                                </select>
+                                            </div>
+                                            <div class="room-control">
+                                                <button type="button" class="delete-btn" id="delete-btn" disabled>-Remove the room</button>
+                                            </div>
+                                           
+                                        </div>
+                                        
                                     </div>
-                                </li>
-                                <br>
-
-                                <!-- children num -->
-                                <li>
-                                    <span style="color: #3e61a0; font-size: 2rem;">Number Of Children *</span>
-                                    <div>
-                                        <select name="childrenNum" id="children" required style="margin-top: 10px;">
-                                            <option selected disabled value="-1">Number of Children</option>
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                        </select>
+                                    <div class="select-room-control">
+                                        <button type="button" class="add-btn" id="add-btn">+ Add a room</button>
                                     </div>
-                                </li>
-                                <br>
-
-                                <!-- arrival date and time -->
-                                <li>
-                                    <span style="color: #3e61a0; font-size: 2rem;">Arrival Date & Time *</span>
-                                    <div>
-                                        <span>
-                                            <select name="arrivalDay" aria-label="Day" id="day" title="Day" autocomplete="on" required
-                                                style="margin-top: 10px;">
-                                                <option value="-1" selected disabled="">Day</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8">8</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="13">13</option>
-                                                <option value="14">14</option>
-                                                <option value="15">15</option>
-                                                <option value="16">16</option>
-                                                <option value="17">17</option>
-                                                <option value="18">18</option>
-                                                <option value="19">19</option>
-                                                <option value="20">20</option>
-                                                <option value="21">21</option>
-                                                <option value="22">22</option>
-                                                <option value="23">23</option>
-                                                <option value="24">24</option>
-                                                <option value="25">25</option>
-                                                <option value="26">26</option>
-                                                <option value="27">27</option>
-                                                <option value="28">28</option>
-                                                <option value="29">29</option>
-                                                <option value="30">30</option>
-                                                <option value="31">31</option>
-                                            </select>
-                                            <select name="arrivalMonth" aria-label="Month" id="month" title="Month" autocomplete="on"
-                                                required>
-                                                <option value="-1" selected disabled>Month</option>
-                                                <option value="1">Jan</option>
-                                                <option value="2">Feb</option>
-                                                <option value="3">Mar</option>
-                                                <option value="4">Apr</option>
-                                                <option value="5">May</option>
-                                                <option value="6">Jun</option>
-                                                <option value="7">Jul</option>
-                                                <option value="8">Aug</option>
-                                                <option value="9">Sep</option>
-                                                <option value="10">Oct</option>
-                                                <option value="11">Nov</option>
-                                                <option value="12">Dec</option>
-                                            </select>
-                                            <select name="arrivalYear" aria-label="Year" id="year" title="Year" autocomplete="on" required>
-                                                <option value="-1" selected disabled="">Year</option>
-                                                <option value="2023">2023</option>
-                                            </select>
-                                        </span>
-
-                                        <span class="date-separate">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                </div>
+                                
+                                <% if (messages && messages.length > 0) { %>
+                                    <div class="alert alert-danger">
+                                      <% messages.forEach(function(error) { %>
+                                        <p><%= error %></p>
+                                      <% }) %>
                                     </div>
-                                </li>
-                                <br>
-
-                                <!-- departure date and time -->
+                                  <% } %>
+                                
                                 <li>
-                                    <span style="color: #3e61a0; font-size: 2rem;">Departure Date & Time *</span>
-                                    <div>
-                                        <span>
-                                            <select name="departureDay" aria-label="Day" id="departure_day" title="Day" autocomplete="on"
-                                                required style="margin-top: 10px;">
-                                                <option value="-1" selected disabled="">Day</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8">8</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="13">13</option>
-                                                <option value="14">14</option>
-                                                <option value="15">15</option>
-                                                <option value="16">16</option>
-                                                <option value="17">17</option>
-                                                <option value="18">18</option>
-                                                <option value="19">19</option>
-                                                <option value="20">20</option>
-                                                <option value="21">21</option>
-                                                <option value="22">22</option>
-                                                <option value="23">23</option>
-                                                <option value="24">24</option>
-                                                <option value="25">25</option>
-                                                <option value="26">26</option>
-                                                <option value="27">27</option>
-                                                <option value="28">28</option>
-                                                <option value="29">29</option>
-                                                <option value="30">30</option>
-                                                <option value="31">31</option>
-                                            </select>
-                                            <select name="departureMonth" aria-label="Month" id="departure_month" title="Month"
-                                                autocomplete="on" required>
-                                                <option value="-1" selected disabled>Month</option>
-                                                <option value="1">Jan</option>
-                                                <option value="2">Feb</option>
-                                                <option value="3">Mar</option>
-                                                <option value="4">Apr</option>
-                                                <option value="5">May</option>
-                                                <option value="6">Jun</option>
-                                                <option value="7">Jul</option>
-                                                <option value="8">Aug</option>
-                                                <option value="9">Sep</option>
-                                                <option value="10">Oct</option>
-                                                <option value="11">Nov</option>
-                                                <option value="12">Dec</option>
-                                            </select>
-                                            <select name="departureYear" aria-label="Year" id="departure_year" title="Year" autocomplete="on"
-                                                required>
-                                                <option value="-1" selected disabled="">Year</option>
-                                                <option value="2023">2023</option>
-                                            </select>
-                                        </span>
-
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <button class="btn btn-white">Submit</button>
+                                    <button type="submit" class="btn btn-white">Submit</button>
                                 </li>
                                 <br><br>
                             </ul>
                         </div>
                     </form>
+
+                    <script>
+                        const addBtn=document.getElementById('add-btn');
+                        const deleteBtn=document.getElementById('delete-btn');
+                        const roomContainer = document.getElementById('room-container');
+                        function addRoom(){
+                            let roomList = document.querySelectorAll('#room-container .room');
+                            let lastRoom = roomList[roomList.length-1];
+                            let lastRoomId = lastRoom.querySelector('select').id;
+                            let newRoomId = 'room-' + (parseInt(lastRoomId.replace('room-',''))+1);
+                            let newRoom = document.createElement('div');
+                            newRoom.classList.add('room');
+                            newRoom.innerHTML=`
+                                <div class="room-content">
+                                    <span class="room-title" >Room ${roomList.length+1}:</span>
+                                    <label class="booking-label" for="${newRoomId}">Choose the type of room</label>
+                                    <select name="room[]" id="${newRoomId}" required style="margin-top: 10px;">
+                                        <option value="1">Single (Max: 1 person)</option>
+                                        <option value="2">Double (Max: 2 people)</option>
+                                        <option value="3">Triple (Max: 3 people)</option>
+                                        <option value="4">Quad (Max: 4 people)</option>
+                                        <option value="5">President (Max: 2 people)</option>
+                                        <option value="6">Rooftop (Max: 2 people)</option>
+                                    </select>
+                                </div>
+                                <div class="room-control">
+                                    <button type="button" class="delete-btn">-Remove the room</button>
+                                </div>`;
+                            roomContainer.appendChild(newRoom);
+                            checkRoomCount();
+                        }
+                        addBtn.addEventListener('click',addRoom);
+
+                        
+
+
+                        roomContainer.addEventListener('click' ,function removeRoom(e){
+                            if (e.target && e.target.classList.contains('delete-btn'))
+                            {
+                                console.log( e.target.parentNode.parentNode)
+                                e.target.parentNode.parentNode.remove();
+                                checkRoomCount();
+                            }
+                        });
+
+                        function checkRoomCount() {
+                            let roomList = document.querySelectorAll('#room-container .room');
+                            if (roomList.length === 1) {
+                                roomList[0].querySelector('.delete-btn').setAttribute('disabled', true);
+                                roomList[0].querySelector('.room-title').textContent='Room 1:';
+                            } else {
+                                roomList.forEach(function(room, index) {
+                                let title = room.querySelector('.room-title');
+                                title.textContent = `Room ${index + 1}:`;
+                                room.querySelector('.delete-btn').removeAttribute('disabled');
+                                });
+                            }
+                        }
+                    </script>
                 </div>
             </article>
         </div>
