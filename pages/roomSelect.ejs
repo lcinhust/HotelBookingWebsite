@@ -33,6 +33,14 @@
         <input type="hidden" name="arrivalDate" value="<%= resData[0].arrivalDate %>">
         <input type="hidden" name="departureDate" value="<%= resData[0].departureDate %>">
         <input type="hidden" name="userId" value="<%= resData[0].userId %>">
+        <% function totalPrice(typeArr){
+            return typeArr.reduce((total,type)=>{
+                total = total + type.numRoomsChosen*type.price;
+                return total;
+            },0)
+        } %>
+
+        <input type="hidden" name="totalPrice" value="<%= totalPrice(resData) %>">
 
         <!-- modal-->
         <br><br><br>
@@ -57,12 +65,7 @@
                     <% function priceEachType(num,type){
                         return num*type;
                     } %>
-                    <% function totalPrice(typeArr){
-                        return typeArr.reduce((total,type)=>{
-                            total = total + type.numRoomsChosen*type.price;
-                            return total;
-                        },0)
-                    } %>
+                    
                     <br><br>
                     <ul class="bill-list">
                         <% resData.forEach(type => { %>
