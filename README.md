@@ -12,6 +12,18 @@
 * Database: MySQL
 
 ### Features
+- Authentication: Login, signup, resetPassword, updatePassword
+- Authorization:
+  - Restrict users, admin, guides what they can do
+- Admin:
+  - Create, read, update the booking status
+  - Search booking infromation 
+  - Checkin, checkout
+- Users:
+  - Update user info
+  - Review room types and prices
+  - Booking validation
+  - Bill displaying
 
 ## Setup
 1. Press the **Fork** button (top right the page) to save copy of this project on your account.
