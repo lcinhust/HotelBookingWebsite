@@ -3,34 +3,56 @@ const router = express.Router();
 const db=require('../database');
 const bcrypt=require('bcrypt');
 
-
 router.post('/signup', async (req,res)=>{
     const {email,password} = req.body;
     let hashedPassword= await bcrypt.hash(password,10);
-    db.query(`select * from account where email='${email}'`,(err,results)=>{
+    db.beginTransaction((err) => {
         if (err) throw err;
-        if (results.length>0)
-        {
-            req.flash('error','Email already registered');
-            res.redirect('/signupform')
-        }
-        else{
-            db.query(`insert into account (email,password) values ('${email}','${hashedPassword}')`, (err)=>{
-                if (err) throw err;
-                const {fname,lname,phone,dob} = req.body;
-                
-                db.query(`select id from account where email='${email}'`,(err,results)=>{
-                    if (err) throw err;
-                    const id=results[0].id;
-                    db.query(`insert into booker values (${id},'${fname}','${lname}','${dob}','${phone}')`, (err)=>{
-                        if (err) throw err;
-                        res.redirect('/index');
-                    })
-                })
-                
-            })
-        }        
-    })
+        db.query(`SELECT * FROM account WHERE email='${email}'`, (err, results) => {
+            if (err) {
+                db.rollback(() => {
+                    throw err;
+                });
+            }
+            if (results.length > 0) {
+                req.flash('error', 'Email already registered');
+                res.redirect('/signupform');
+                db.rollback();
+            } else {
+                db.query(`INSERT INTO account (email,password) VALUES ('${email}','${hashedPassword}')`, (err) => {
+                    if (err) {
+                        db.rollback(() => {
+                            throw err;
+                        });
+                    }
+                    const { fname, lname, phone, dob } = req.body;
+                    db.query(`SELECT id FROM account WHERE email='${email}'`, (err, results) => {
+                        if (err) {
+                            db.rollback(() => {
+                                throw err;
+                            });
+                        }
+                        const id = results[0].id;
+                        db.query(`INSERT INTO booker VALUES (${id},'${fname}','${lname}','${dob}','${phone}')`, (err) => {
+                            if (err) {
+                                db.rollback(() => {
+                                    throw err;
+                                });
+                            }
+                            db.commit((err) => {
+                                if (err) {
+                                    db.rollback(() => {
+                                        throw err;
+                                    });
+                                }
+                                res.redirect('/index');
+                            });
+                        });
+                    });
+                });
+            }
+        });
+    });
 })
 
 router.post('/signin',(req,res)=>{
