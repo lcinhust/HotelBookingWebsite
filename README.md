@@ -1,6 +1,7 @@
 # Database Lab (IT3290E) Final Project - ICT K66 - HUST
 
 # Hotel Booking Website 
+As the demand for tourism is growing, the need to find hotels with high quality rooms and good services is significantly increasing. Therefore, we made this website for the purpose of providing customers with accurate information about rooms at hotel and how to book online to help you to setup hotel booking system quickly, pleasantly and easily.
 
 ## Overview
 
@@ -16,13 +17,15 @@
 - Authorization:
   - Restrict users, admin, guides what they can do
 - Admin:
+  - An admin account is provided
   - Create, read, update the booking status
-  - Search booking infromation 
-  - Checkin, checkout
+  - Search booking information 
+  - Checkin - checkout
 - Users:
-  - Update user info
+  - Update user information
   - Review room types and prices
   - Booking validation
+  - Recommend the rooms number for each chosen room type 
   - Bill displaying
 
 ## Setup
@@ -59,53 +62,27 @@ If you want to contribute to this project and make it better with new ideas, you
 If you find any issue just put it in the repository issue section, thank you.
 
 ## Member Contribution
-
 <table>
     <tbody>
         <tr>
             <th align="center">Member name</th>
             <th align="center">Student ID</th>
-            <th align="center">Assignment</th>
         </tr>
         <tr>
             <td>Nguyễn Chí Long</td>
             <td align="center"> 20210553&nbsp;&nbsp;&nbsp;</td>
-            <td align="left">
-                <ul>
-                <li></li>
-                <li></li>
-                </ul>
-            </td>
         </tr>
         <tr>
             <td>Đinh Việt Quang</td>
             <td align="center"> 20215235&nbsp;&nbsp;&nbsp;</td>
-            <td>
-                <ul>
-                <li></li>
-                <li></li>
-                </ul>
-            </td>
         </tr>
         <tr>
             <td>Ngô Xuân Bách</td>
             <td align="center"> 20215181&nbsp;&nbsp;&nbsp;</td>
-            <td>
-                <ul>
-                <li></li>
-                <li></li>
-                </ul>
-            </td>
         </tr>
         <tr>
             <td>Lê Xuân Hiếu</td>
             <td align="center"> 20215201&nbsp;&nbsp;&nbsp;</td>
-            <td>
-                <ul>
-                <li></li>
-                <li></li>
-                </ul>
-            </td>
         </tr>
     </tbody>
 </table>
