@@ -73,16 +73,16 @@ If you find any issue just put it in the repository issue section, thank you.
             <td align="center"> 20210553&nbsp;&nbsp;&nbsp;</td>
         </tr>
         <tr>
-            <td>Đinh Việt Quang</td>
-            <td align="center"> 20215235&nbsp;&nbsp;&nbsp;</td>
-        </tr>
-        <tr>
             <td>Ngô Xuân Bách</td>
             <td align="center"> 20215181&nbsp;&nbsp;&nbsp;</td>
         </tr>
         <tr>
             <td>Lê Xuân Hiếu</td>
             <td align="center"> 20215201&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Đinh Việt Quang</td>
+            <td align="center"> 20215235&nbsp;&nbsp;&nbsp;</td>
         </tr>
     </tbody>
 </table>
