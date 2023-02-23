@@ -6,6 +6,7 @@ As the demand for tourism is growing, the need to find hotels with high quality 
 ## Overview
 
 ### Database Schema
+![Architecture](https://github.com/lcinhust/HotelBookingWebsite/blob/main/bookingapp_query/bookingapp.jpg)
 
 ### Technical Specifications
 * Frontend: EJS, CSS, Javascript
@@ -39,6 +40,9 @@ As the demand for tourism is growing, the need to find hotels with high quality 
 6. Deploy & Run the application with `npm run dev` :D
 
 ## Project Structure
+    ├── bookingapp_query    # tables and queries used for this project
+    |   └── bookingapp.jpg
+    |   └── bookingapp.sql
     ├── pages               #ejs files
     ├── public              
     ├── routes              #code files
@@ -46,9 +50,6 @@ As the demand for tourism is growing, the need to find hotels with high quality 
     |   └── booking.js
     |   └── general.js
     |   └── users.js    
-    ├── bookingapp_query    # tables and queries used for this project
-    |   └── bookingapp.sql
-    |   └── bookingapp_diagram
     ├── .env
     ├── .gitignore
     └── README.md
