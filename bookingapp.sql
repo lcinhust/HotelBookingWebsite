@@ -244,7 +244,7 @@ values
 (3,12,2023,200),
 (4,12,2023,250),
 (5,12,2023,400),
-(6,12,2023,350),
+(6,12,2023,350);
 
 insert into account(email,password,type_of_account)
 values ('admin@test.com','admin','admin');
