@@ -99,7 +99,7 @@ values
 ('president',2),
 ('rooftop',2);
       
-insert into room (number,type_id,status)
+insert into room (number,type_id)
 values 
 (201,1),
 (202,1),
