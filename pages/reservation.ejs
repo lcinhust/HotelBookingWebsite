@@ -53,8 +53,7 @@
         <p>status: <%= userReservation.status %></p>
         <p>price: <%= userReservation.price %></p>
         <p>payment date: <%= userReservation.payment_date %></p>
-        <!-- <a href="/admin/editReservation/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Edit reservation</button></a> -->
-        <br><br>
+        <a href="/admin/decline/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Decline</button></a>
         <a href="/admin/checkin/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Check in</button></a>
         <a href="/admin/checkout/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Check out</button></a>
     </div>

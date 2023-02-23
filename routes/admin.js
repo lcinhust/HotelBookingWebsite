@@ -94,7 +94,7 @@ router.get('/admin/dashboard', isLoggedInAdmin, async (req, res) => {
     res.render('adminDashboard.ejs', { userReservation });
 }) //must login to see
 
-router.post('/admin/accept/:id', (req, res) => {
+router.post('/admin/accept/:id',isLoggedInAdmin, (req, res) => {
     const { id } = req.params;
     db.query(`update reservation set status = 'accept' where id = '${id}';`, (err, result) => {
         if (err) throw err;
@@ -104,7 +104,7 @@ router.post('/admin/accept/:id', (req, res) => {
     })
 
 })
-router.post('/admin/decline/:id', (req, res) => {
+router.post('/admin/decline/:id',isLoggedInAdmin, (req, res) => {
     const { id } = req.params;
     db.query(`update reservation set status = 'decline' where id = '${id}';`, (err, result) => {
         if (err) throw err;
@@ -122,7 +122,7 @@ router.get('/admin/reservation', isLoggedInAdmin, (req, res) => {
     res.render('reservation.ejs', { userReservation, message: req.flash('error') })
 })
 
-router.post('/admin/search', async (req, res) => {
+router.post('/admin/search',isLoggedInAdmin, async (req, res) => {
     const { search } = req.body;
     let record;
     let userReservation;
@@ -162,7 +162,7 @@ router.post('/admin/search', async (req, res) => {
 })
 
 
-// router.get('/admin/editReservation/:id', async (req, res) => {
+// router.get('/admin/editReservation/:id',isLoggedInAdmin, async (req, res) => {
 //     const {id} = req.params;
 //     console.log(id);
 //     let record;
@@ -181,10 +181,12 @@ router.post('/admin/search', async (req, res) => {
 //             req.flash('error', 'ID not found');
 //         }
 //         if (record.length > 0) {
-//             userReservation = {               
+//             userReservation = {
+//                 id: record[0].id,              
 //                 phone: record[0].phone,
 //                 date_in: dateFormatting2(record[0].date_in),
 //                 date_out: dateFormatting2(record[0].date_out),
+//                 status:record[0].status,
 //                 description: record[0].description
 //             };
 //             // console.log(userReservation);
@@ -195,7 +197,7 @@ router.post('/admin/search', async (req, res) => {
 //     res.render('admin_editReservation.ejs', { userReservation, message: req.flash('error') });
 // })
 
-router.get('/admin/checkin/:id', async (req, res) => {
+router.get('/admin/checkin/:id',isLoggedInAdmin, async (req, res) => {
     const { id } = req.params;
     db.query(`select * from reservation where id = '${id}'`, (err, result) => {
         if (err) throw err;
@@ -215,7 +217,7 @@ router.get('/admin/checkin/:id', async (req, res) => {
 
 })
 
-router.get('/admin/checkout/:id', async (req, res) => {
+router.get('/admin/checkout/:id',isLoggedInAdmin, async (req, res) => {
     const { id } = req.params;
 
     db.query(`select * from reservation where id = '${id}'`, (err, result) => {
@@ -240,6 +242,42 @@ router.get('/admin/checkout/:id', async (req, res) => {
         }
     })
 
+
+})
+
+// router.post('/admin/editReservation/:id',isLoggedInAdmin,async (req,res)=>{
+//     const {id} = req.params;
+//     const {din,dout,status} = req.body;
+//     let record;
+//     try {
+//         await new Promise((resolve, reject) => {
+//             db.query(`update reservation set date_in = '${din}', date_out = '${dout}',status = '${status}'`, (err, results) => {
+//                 if (err) reject(new Error(err.message));
+//                 resolve(results);
+//             });
+//         });
+//     } catch (error) {
+//         console.log(error);
+//     }
+// })
+
+router.get('/admin/decline/:id',isLoggedInAdmin, (req, res) => {
+    const { id } = req.params;
+    db.query(`select * from reservation where id = '${id}'`, (err, result) => {
+        if (err) throw err;
+        else {
+            if (result[0].status === 'accept') {
+                db.query(`update reservation set status = 'decline' where id = '${id}';`, (err, result) => {
+                    if (err) throw err;
+                    else {
+                        res.redirect('/admin/reservation');
+                    }
+                })
+            } else {
+                res.redirect('/admin/reservation');
+            }
+        }
+    })
 
 })
 

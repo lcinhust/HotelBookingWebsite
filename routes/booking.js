@@ -7,6 +7,27 @@ const db = require('../database');
  * @param roomType - id of type of room
  * @returns An array of room numbers which type is the same with roomType.
  */
+
+function isLoggedOut(req,res,next){
+    if (req.session.userId)
+        res.redirect('/booking');
+    else next();
+}
+
+function isLoggedIn(req,res,next)
+{
+    if (req.session.userId)
+        next();
+    else res.redirect('/loginform');
+}
+router.get('/booking', isLoggedIn, (req, res) => {
+    res.render('booking.ejs',{messages: req.flash('errors')});
+}) //must log in to see
+
+router.get('/roomSelect', isLoggedIn, (req, res) => {
+    res.render('roomSelect.ejs');
+})
+
 async function getRoomsOfType(roomType, arrivalDate, departureDate) {
     let response;
     try {
