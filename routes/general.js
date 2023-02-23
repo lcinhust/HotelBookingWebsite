@@ -4,7 +4,9 @@ const path = require('path');
 const db=require('../database');
 const bcrypt=require('bcrypt');
 
-
+router.get('/',(req,res)=>{
+    res.redirect('/index');
+})
 
 router.get('/index', (req, res) => {
     res.render('index.ejs', {message: req.flash('success')});
