@@ -623,3 +623,34 @@ input[type=submit] {
     }
 }
 
+.accept-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  .accept-btn:hover {
+    background-color: #3e8e41;
+  }
+
+  .decline-btn {
+    background-color: #d82522;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  .decline-btn:hover {
+    background-color: #940505;
+  }
+
+  table {
+    overflow-x: hidden;
+  }
+  
+  

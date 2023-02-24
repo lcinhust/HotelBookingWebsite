@@ -20,30 +20,53 @@ function isLoggedIn(req,res,next)
 router.post('/signup', async (req,res)=>{
     const {email,password} = req.body;
     let hashedPassword= await bcrypt.hash(password,10);
-    db.query(`select * from account where email='${email}'`,(err,results)=>{
+    db.beginTransaction((err) => {
         if (err) throw err;
-        if (results.length>0)
-        {
-            req.flash('error','Email already registered');
-            res.redirect('/signupform')
-        }
-        else{
-            db.query(`insert into account (email,password) values ('${email}','${hashedPassword}')`, (err)=>{
-                if (err) throw err;
-                const {fname,lname,phone,dob} = req.body;
-                
-                db.query(`select id from account where email='${email}'`,(err,results)=>{
-                    if (err) throw err;
-                    const id=results[0].id;
-                    db.query(`insert into booker values (${id},'${fname}','${lname}','${dob}','${phone}')`, (err)=>{
-                        if (err) throw err;
-                        res.redirect('/index');
-                    })
-                })
-                
-            })
-        }        
-    })
+        db.query(`SELECT * FROM account WHERE email='${email}'`, (err, results) => {
+            if (err) {
+                db.rollback(() => {
+                    throw err;
+                });
+            }
+            if (results.length > 0) {
+                req.flash('error', 'Email already registered');
+                res.redirect('/signupform');
+                db.rollback();
+            } else {
+                db.query(`INSERT INTO account (email,password) VALUES ('${email}','${hashedPassword}')`, (err) => {
+                    if (err) {
+                        db.rollback(() => {
+                            throw err;
+                        });
+                    }
+                    const { fname, lname, phone, dob } = req.body;
+                    db.query(`SELECT id FROM account WHERE email='${email}'`, (err, results) => {
+                        if (err) {
+                            db.rollback(() => {
+                                throw err;
+                            });
+                        }
+                        const id = results[0].id;
+                        db.query(`INSERT INTO booker VALUES (${id},'${fname}','${lname}','${dob}','${phone}')`, (err) => {
+                            if (err) {
+                                db.rollback(() => {
+                                    throw err;
+                                });
+                            }
+                            db.commit((err) => {
+                                if (err) {
+                                    db.rollback(() => {
+                                        throw err;
+                                    });
+                                }
+                                res.redirect('/index');
+                            });
+                        });
+                    });
+                });
+            }
+        });
+    });
 })
 
 router.post('/signin',(req,res)=>{
@@ -143,7 +166,7 @@ router.get('/editProfile', isLoggedIn, (req, res) => {
     
 })
 
-router.post('/editProfile',(req,res)=>{
+router.post('/editProfile',isLoggedIn,(req,res)=>{
     //check not duplicated email
     const {id,fname,lname,email,phone,dob}=req.body;
     db.query(`select * from account where email='${email}' and id<>${id}`,(err,results)=>{
@@ -180,7 +203,7 @@ router.get('/editPassword', isLoggedIn, (req, res) => {
     
 })
 
-router.post('/editPassword', (req,res)=>{
+router.post('/editPassword',isLoggedIn, (req,res)=>{
     const {id,oldPassword,newPassword,newPassword2}=req.body;
     db.query(`select password from account where id=${id}`,(err,results)=>{
         if (err) throw err;
@@ -200,12 +223,12 @@ router.post('/editPassword', (req,res)=>{
                         })
                     }
                     else {
-                        req.flash('error','new password is not matching');
+                        req.flash('error','New password is not matching');
                         res.redirect(`/editPassword?id=${id}`);
                     }
                 }
                 else {
-                    req.flash('error','you enter the wrong password');
+                    req.flash('error','You enter the wrong password');
                     res.redirect(`/editPassword?id=${id}`);
                 }
             })

@@ -858,8 +858,7 @@ textarea {
 /* success and error message */
 .alert-info {
     color: #f0162c;
-    padding: 15px;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 
   .alert-success {

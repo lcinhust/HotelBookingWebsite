@@ -70,9 +70,7 @@ router.get('/admin/dashboard', isLoggedInAdmin, async (req, res) => {
     let userReservation = [];
     try {
         response1 = await new Promise((resolve, reject) => {
-            db.query(`select re.id,b.id as booker_id,concat(b.first_name,' ',b.last_name) as name,b.phone,re.date_in,re.date_out,re.description
-            from reservation as re,booker as b
-            where b.id = re.booker_id and re.status = 'pending'`, (err, results) => {
+            db.query(`select * from vDashboard`, (err, results) => {
                 if (err) reject(new Error(err.message));
                 resolve(results);
             });
@@ -80,21 +78,29 @@ router.get('/admin/dashboard', isLoggedInAdmin, async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-    for (let record of response1) {
-        userReservation.push({
-            id: record.id,
-            booker_id: record.booker_id,
-            name: record.name,
-            phone: record.phone,
-            date_in: dateFormatting(record.date_in),
-            date_out: dateFormatting(record.date_out),
-            description: record.description
-        });
-    }
+
+    let i = 0; //number of reservations
+    response1.forEach((element, index, arr) => {
+        if (index === 0 || element.id != arr[index - 1].id) {
+            userReservation.push({
+                id: element.id,
+                booker_id: element.booker_id,
+                name: element.name,
+                phone: element.phone,
+                date_in: dateFormatting(element.date_in),
+                date_out: dateFormatting(element.date_out),
+                description: [element.number],
+            });
+            i++;
+        }
+        else {
+            userReservation[i - 1].description.push(element.number);
+        }
+    });
     res.render('adminDashboard.ejs', { userReservation });
 }) //must login to see
 
-router.post('/admin/accept/:id',isLoggedInAdmin, (req, res) => {
+router.post('/admin/accept/:id', isLoggedInAdmin, (req, res) => {
     const { id } = req.params;
     db.query(`update reservation set status = 'accept' where id = '${id}';`, (err, result) => {
         if (err) throw err;
@@ -104,7 +110,7 @@ router.post('/admin/accept/:id',isLoggedInAdmin, (req, res) => {
     })
 
 })
-router.post('/admin/decline/:id',isLoggedInAdmin, (req, res) => {
+router.post('/admin/decline/:id', isLoggedInAdmin, (req, res) => {
     const { id } = req.params;
     db.query(`update reservation set status = 'decline' where id = '${id}';`, (err, result) => {
         if (err) throw err;
@@ -122,38 +128,42 @@ router.get('/admin/reservation', isLoggedInAdmin, (req, res) => {
     res.render('reservation.ejs', { userReservation, message: req.flash('error') })
 })
 
-router.post('/admin/search',isLoggedInAdmin, async (req, res) => {
+router.post('/admin/search', isLoggedInAdmin, async (req, res) => {
     const { search } = req.body;
     let record;
     let userReservation;
-    if (search) {
+    if (!isNaN(search) && search) {
         try {
             record = await new Promise((resolve, reject) => {
-                db.query(`select re.id,b.id as booker_id,concat(b.first_name,' ',b.last_name) as name,b.phone,re.date_in,re.date_out,re.description,re.status,total_price,payment_date 
-                from reservation as re, booker as b,payment as p
-                where b.id = re.booker_id and re.id=p.reservation_id and re.id = ${search}`, (err, results) => {
+                db.query(`select * from vReservation where id = ${search};`, (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 });
             });
         } catch (error) {
-            req.flash('error', 'ID not found');
+            console.log(error);
         }
-        console.log()
+    
         if (record.length > 0) {
-            userReservation = {
-                id: record[0].id,
-                booker_id: record[0].booker_id,
-                name: record[0].name,
-                phone: record[0].phone,
-                date_in: dateFormatting(record[0].date_in),
-                date_out: dateFormatting(record[0].date_out),
-                description: record[0].description,
-                status: record[0].status,
-                price: record[0].total_price,
-                payment_date: dateFormatting(record[0].payment_date)
-            };
-            console.log(userReservation);
+            record.forEach((element, index, arr) => {
+                if (index === 0 || element.id != arr[index - 1].id) {
+                    userReservation = {
+                        id: element.id,
+                        booker_id: element.booker_id,
+                        name: element.name,
+                        phone: element.phone,
+                        date_in: dateFormatting(element.date_in),
+                        date_out: dateFormatting(element.date_out),
+                        description: [element.number],
+                        status: element.status,
+                        price: element.total_price,
+                        payment_date: dateFormatting(element.payment_date)
+                    };
+                }
+                else {
+                    userReservation.description.push(element.number);
+                }
+            });
         } else {
             req.flash('error', 'ID not found');
         }
@@ -197,7 +207,7 @@ router.post('/admin/search',isLoggedInAdmin, async (req, res) => {
 //     res.render('admin_editReservation.ejs', { userReservation, message: req.flash('error') });
 // })
 
-router.get('/admin/checkin/:id',isLoggedInAdmin, async (req, res) => {
+router.get('/admin/checkin/:id', isLoggedInAdmin, async (req, res) => {
     const { id } = req.params;
     db.query(`select * from reservation where id = '${id}'`, (err, result) => {
         if (err) throw err;
@@ -217,7 +227,7 @@ router.get('/admin/checkin/:id',isLoggedInAdmin, async (req, res) => {
 
 })
 
-router.get('/admin/checkout/:id',isLoggedInAdmin, async (req, res) => {
+router.get('/admin/checkout/:id', isLoggedInAdmin, async (req, res) => {
     const { id } = req.params;
 
     db.query(`select * from reservation where id = '${id}'`, (err, result) => {
@@ -236,7 +246,7 @@ router.get('/admin/checkout/:id',isLoggedInAdmin, async (req, res) => {
 
                     }
                 })
-            }else{
+            } else {
                 res.redirect('/admin/reservation');
             }
         }
@@ -261,7 +271,7 @@ router.get('/admin/checkout/:id',isLoggedInAdmin, async (req, res) => {
 //     }
 // })
 
-router.get('/admin/decline/:id',isLoggedInAdmin, (req, res) => {
+router.get('/admin/decline/:id', isLoggedInAdmin, (req, res) => {
     const { id } = req.params;
     db.query(`select * from reservation where id = '${id}'`, (err, result) => {
         if (err) throw err;

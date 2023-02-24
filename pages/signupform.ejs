@@ -81,7 +81,7 @@
                         passwordInput.setAttribute("type", type1)
                     })
                 </script>
-                <input type="number" name="phone" placeholder="Phone Number" required>
+                <input type="tel" name="phone" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" placeholder="Phone Number" required>
                 <input type="date" name="dob" placeholder="Date of Birth" required>
                 <button style="margin-top:10px"> Create Account</button>
                 <h5>Already have an account! <a href="/loginform" class="ghost" id="signIn" style="color:blue;"><u>Sign In</u></a></h5>
