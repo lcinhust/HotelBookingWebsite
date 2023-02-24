@@ -83,7 +83,6 @@ DO
     WHERE status = 'accept' AND date_in < NOW();
     
 -- VIEWS
-
 -- these view can be applied for many future feature of the app
 
 create view vReservation as
@@ -255,11 +254,3 @@ values
 
 insert into account(email,password,type_of_account)
 values ('admin@test.com','admin','admin');
-
-
-
-
-
-
-
-
