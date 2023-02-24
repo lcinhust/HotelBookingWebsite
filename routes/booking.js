@@ -171,7 +171,7 @@ async function addRoomReserved(reservationId, roomId) {
     }
 }
 
-router.post('/booking', async (req, res) => {
+router.post('/booking', isLoggedIn, async (req, res) => {
     try {
         const { 'arrival-date': arrivalDate, 'departure-date': departureDate } = req.body;
         // console.log(arrivalDate, departureDate);
@@ -213,7 +213,7 @@ router.post('/booking', async (req, res) => {
     }
 });
 
-router.post('/roomSelect', async (req, res) => {
+router.post('/roomSelect', isLoggedIn, async (req, res) => {
     try {
         console.log(req.body);
         // // Get the next reservation ID
