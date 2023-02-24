@@ -54,7 +54,7 @@ As the demand for tourism is growing, the need to find hotels with high quality 
     ├── .gitignore
     ├── README.md
     ├── database.js
-    ├── HBWpresentation.pdf
+    ├── HBWpresentSlide.pdf
     ├── index.js
     ├── package-lock.json
     └── package.json
