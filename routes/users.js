@@ -166,7 +166,7 @@ router.get('/editProfile', isLoggedIn, (req, res) => {
     
 })
 
-router.post('/editProfile',(req,res)=>{
+router.post('/editProfile',isLoggedIn,(req,res)=>{
     //check not duplicated email
     const {id,fname,lname,email,phone,dob}=req.body;
     db.query(`select * from account where email='${email}' and id<>${id}`,(err,results)=>{
@@ -203,7 +203,7 @@ router.get('/editPassword', isLoggedIn, (req, res) => {
     
 })
 
-router.post('/editPassword', (req,res)=>{
+router.post('/editPassword',isLoggedIn, (req,res)=>{
     const {id,oldPassword,newPassword,newPassword2}=req.body;
     db.query(`select password from account where id=${id}`,(err,results)=>{
         if (err) throw err;

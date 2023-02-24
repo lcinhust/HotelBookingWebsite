@@ -1,11 +1,13 @@
 create database bookingapp;
 use bookingapp;
+-- TABLES
 
+-- we do not concern about the info of admin so we don't need admin table 
 CREATE TABLE account (
   id int AUTO_INCREMENT primary key,
   email varchar(255) not null,
   password varchar(255) not null,
-  type_of_account ENUM ('booker', 'admin') default 'booker'
+  type_of_account ENUM ('booker', 'admin') default 'booker' -- the admin account is only can be created in the sql server;
 );
 
 CREATE TABLE type (
@@ -17,16 +19,16 @@ CREATE TABLE type (
 CREATE TABLE room (
   id int PRIMARY KEY auto_increment,
   number int,
-  type_id int,
+  type_id int, -- referencing to type table
   CONSTRAINT FK_TypeID FOREIGN KEY (type_id) references type(id)
 );
 
 CREATE TABLE booker (
-  id int,
+  id int, -- the id is referencing to id in account
   first_name varchar(50) not null,
   last_name varchar(50) not null,
   birth_date date,
-  phone char(10),
+  phone char(10) not null,
   PRIMARY KEY (id),
   CONSTRAINT FK_BookerID FOREIGN KEY (id) references account(id)
 );
@@ -35,8 +37,7 @@ CREATE TABLE reservation (
   date_in date,
   date_out date,
   booker_id int,
-  description varchar(255) default '',
-  status enum('accept','decline','pending','checkin','checkout') default 'pending',
+  status enum('accept','decline','pending','checkin','checkout') default 'pending', 
   CONSTRAINT FK_rever_bookerid FOREIGN KEY (booker_id) references booker(id)
 );
 
@@ -48,6 +49,7 @@ CREATE TABLE room_reserved (
   CONSTRAINT FK_room_reserverd_reservation_id FOREIGN KEY (reservation_id) references reservation(id)
 );
 
+-- this table is to update price for each month and year
 CREATE TABLE month_price (
   type_id int,
   month int,
@@ -59,28 +61,18 @@ CREATE TABLE month_price (
 
 CREATE TABLE payment (
   payment_id int PRIMARY KEY auto_increment,
-  payment_date date default '1990-01-01',
+  payment_date date default '1990-01-01', -- if the payment day is default value mean user haven't paid
   reservation_id int,
   total_price int,
   CONSTRAINT FK_payment_reservation_id FOREIGN KEY (reservation_id) references reservation(id)
 );
 
+-- INDEXS
 
-create trigger description_insert
-after insert 
-on room_reserved
-for each row
-update reservation
-set description = concat(description,(select number from room where id = new.room_id),' ')
-where id = new.reservation_id;
+create index email_idx on account(email);
+-- for further improvement of app we can add some other index to improve running speed
 
-create trigger description_update
-after delete 
-on room_reserved
-for each row
-update reservation
-set description = replace(description,concat((select number from room where id = old.room_id),' '),'')
-where id = old.reservation_id;
+-- SOME EVENT OR TRIGGER OR PROCEDURE OR FUNCTION
 
 CREATE EVENT update_status_event
 ON SCHEDULE EVERY 1 DAY
@@ -89,6 +81,22 @@ DO
     UPDATE reservation
     SET status = 'decline'
     WHERE status = 'accept' AND date_in < NOW();
+    
+-- VIEWS
+
+-- these view can be applied for many future feature of the app
+
+create view vReservation as
+select re.id,b.id as booker_id,concat(b.first_name,' ',b.last_name) as name,b.phone,re.date_in,re.date_out,room.number,re.status,total_price,payment_date 
+from reservation as re, booker as b,payment as p,room_reserved as r, room
+where b.id = re.booker_id and re.id=p.reservation_id and r.reservation_id = re.id and room.id = r.room_id;
+
+create view vDashboard as
+select re.id,b.id as booker_id,concat(b.first_name,' ',b.last_name) as name,b.phone,re.date_in,re.date_out,room.number,re.status,total_price,payment_date 
+from reservation as re, booker as b,payment as p,room_reserved as r, room
+where b.id = re.booker_id and re.id=p.reservation_id and r.reservation_id = re.id and room.id = r.room_id and re.status = 'pending';
+    
+-- INSERT SOME NECESSARY FOR THE APP
     
 insert into type(name,capacity)
 values 
@@ -247,6 +255,10 @@ values
 
 insert into account(email,password,type_of_account)
 values ('admin@test.com','admin','admin');
+
+
+
+
 
 
 
