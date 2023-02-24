@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+	<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+	<div class="container">
+		<nav class="navbar">
+			<a class="logo" href="/index">Hong Phuong</a>
+			<ul class="nav-list">
+				<li class="nav-item"><a href="/admin/dashboard" class="nav-link">Waiting List</a></li>
+				<li class="nav-item"><a href="/admin/reservation" class="nav-link">Reservation</a></li>
+			</ul>
+			<ul class="nav-list">
+				<li class="nav-item"><a href="/admin/logout" class="nav-link book-btn">Logout</a></li>
+			</ul>
+		</nav>
+		</nav>
+	</div>
+	<section id="info" class="info">
+		<div class="container">
+			<h2>WAITING LIST</h2>
+		</div>
+	</section>
+	<!-- Tab content with title -->
+	<div align="center">
+		<br><br>
+		<table>
+			<thead>
+				<tr> <!-- display column name -->
+					<th>ID</th>
+					<th>Booker id</th>
+					<th>Booker Name</th>
+					<th>Phone Number</th>
+					<th>Date in</th>
+					<th>Date out</th>
+					<th>Description</th>
+					<th>Decline</th>
+					<th>Accept</th>
+				</tr>
+			</thead>
+			<tbody>
+
+					<% userReservation.forEach(element=>{ %>
+						<tr>
+							<td data-label="ID" style="font-size: 17px; color: aliceblue;">
+								<%= element.id %>
+							</td> <!--insert into row values -->
+							<td data-label="Booker_id" style="font-size: 17px; color: aliceblue;">
+								<%= element.booker_id %>
+							</td>
+							<td data-label="Booker Name" style="font-size: 17px; color: aliceblue;">
+								<%= element.name %>
+							</td>
+							<td data-label="Phone Number" style="font-size: 17px; color: aliceblue;">
+								<%= element.phone %>
+							</td>
+							<td data-label="Date_in" style="font-size: 17px; color: aliceblue;">
+								<%= element.date_in %>
+							</td>
+							<td data-label="Date_out" style="font-size: 17px; color: aliceblue;">
+								<%= element.date_out %>
+							</td>
+							<td data-label="Description" style="font-size: 17px; color: aliceblue;">
+								<%= element.description %>
+							</td>
+							<td>
+							<form method="POST" action="/admin/decline/<%= element.id %>">
+								<button class="decline-btn">
+									Decline
+								</button>
+							</form>
+						</td>
+						<td>
+							<form method="POST" action="/admin/accept/<%= element.id %>">
+								<button class="accept-btn">
+									Accept
+								</button>
+							</form>
+						</td>
+						</tr>
+						<% }) %>
+			</tbody>
+		</table>>
+	</div>
+	<script src="tab.js"></script>
+</body>

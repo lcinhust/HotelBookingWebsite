@@ -14,31 +14,13 @@
             // checking the name
             validateName('firstname');
             validateName('lastname');
+
             // check email
             validateEmailAddress('email');
-            // check room
-            validateSelect('room');
-            // check guest
-            validateSelect('guest');
-            // check children
-            validateSelect('children');
-            // Arrival validation 
-            validateSelect('day');
-            validateSelect('month');
-            validateSelect('year');
-            validateSelect('hour');
-            validateSelect('timePeriod');
-            // Departure validation
-            validateSelect('departure_day');
-            validateSelect('departure_month');
-            validateSelect('departure_year');
-            validateSelect('departure_hour');
-            validateSelect('timeperiodDeparture');
-            //check free pickup
-            validateSelect('freePickUp');
-            //check passport number
-            // validatePassportNumber('freePickUp');
+
+            
         }
+
         // validate my email
         function validateEmailAddress(email) {
             var email = document.getElementById(email);
@@ -55,6 +37,7 @@
                 }
             }
         }
+
         // validate the input name
         function validateName(targetId) {
             var name = document.getElementById(targetId);
@@ -71,29 +54,6 @@
                 }
             }
         }
-        // validate the room
-        // function validateSelect(select) {
-        //     var dropdown = document.getElementById(select);
-        //     if (dropdown.value === "-1") {
-        //         alert("Please select any options from "+select);
-        //         return false;
-        //     }
-        // }
-        // // validate passport number
-        // function validatePassportNumber(number) {
-        //     var passportNo = document.getElementById(targetId);
-        //     var regExPassportNumber = /^(?!^0+$)[a-zA-Z0-9]{3,20}$/;
-        //     if (passportNo.value === "") {
-        //         alert("Passport Number must be filled out");
-        //         return false;
-        //     } else {
-        //         if (!regExPassportNumber.test(passportNo.value)) {
-        //             alert("Please enter passport number in correct format");
-        //             passportNo.focus();
-        //             return false;
-        //         }
-        //     }
-        // }
     </script>
 </head>
 
@@ -101,7 +61,7 @@
     <!-- navbar -->
     <div class="container">
         <nav class="navbar">
-            <a class="logo" href="/index">Hotel name</a>
+            <a class="logo" href="/index">Hong Phuong</a>
             <input type="checkbox" id="check">
             <label for="check">
                 <i class="fas fa-bars" id="open"></i>
@@ -116,17 +76,17 @@
                 <li class="nav-item"><a href="/booking" class="nav-link book-btn">Book Now</a></li>
                 <%if (!locals.session.userId) { %>
                     <li class="nav-item"><a href="/loginform" class="nav-link book-btn">Login</a></li>
-                    <% }else{ %>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <button class="nav-link book-btn" style="cursor: pointer;">User</button>
-                                <div class="dropdown-content">
-                                    <a class="nav-link" href="/profile">Profile</a>
-                                    <a class="nav-link" href="/logout">Logout</a>
-                                </div>
+                <% }else{ %>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <button class="nav-link book-btn" style="cursor: pointer;">User</button>
+                            <div class="dropdown-content">
+                                <a class="nav-link" href="/profile">Profile</a>
+                                <a class="nav-link" href="/logout">Logout</a>
                             </div>
-                        </li>
-                        <%}%>
+                        </div>
+                    </li>
+                <%}%>
             </ul>
         </nav>
     </div>
@@ -148,12 +108,61 @@
                                         <h3>Select your dates</h3>
                                     </div>
                                     <div class="select-date-content">
-                                        <label for="arrival-date" class="booking-label">Arrival date</labe>
-                                            <input type="date" id="arrival-date" name="arrival-date" required>
-                                            <label for="departure-date" class="booking-label">Departure date</label>
-                                            <input type="date" id="departure-date" name="departure-date" required>
+                                        <label for="arrival-date" class="booking-label" >Arrival date</labe>
+                                        <input type="date" id="arrival-date" name="arrival-date" required>
+                                        <label for="departure-date" class="booking-label">Departure date</label>
+                                        <input type="date" id="departure-date" name="departure-date" required>
                                     </div>
                                 </div>
+
+                                <script>
+                                    // select the elements
+                                    const arrivalInput = document.getElementById('arrival-date');
+                                    const departureInput = document.getElementById('departure-date');
+
+                                    // set the min and max date for the arrival and departure inputs
+                                    arrivalInput.min = new Date().toISOString().split("T")[0];
+
+                                    function setDepartureMinDate() {
+                                    if (arrivalInput.value !== '') {
+                                        const minDepartureDate = new Date(arrivalInput.value);
+                                        minDepartureDate.setDate(minDepartureDate.getDate() + 1);
+                                        if (minDepartureDate <= new Date()) {
+                                        const today = new Date();
+                                        today.setDate(today.getDate() + 1);
+                                        departureInput.min = today.toISOString().split("T")[0];
+                                        } else {
+                                        departureInput.min = minDepartureDate.toISOString().split("T")[0];
+                                        }
+                                    } else {
+                                        const today = new Date();
+                                        today.setDate(today.getDate() + 1);
+                                        departureInput.min = today.toISOString().split("T")[0];
+                                    }
+                                    }
+
+                                    function setArrivalMaxDate() {
+                                    if (departureInput.value !== '') {
+                                        const maxArrivalDate = new Date(departureInput.value);
+                                        maxArrivalDate.setDate(maxArrivalDate.getDate() - 1);
+                                        arrivalInput.max = maxArrivalDate.toISOString().split("T")[0];
+                                    } else {
+                                        arrivalInput.max = null;
+                                    }
+                                    }
+
+                                    // set the initial min date for the departure input
+                                    setDepartureMinDate();
+
+                                    // add event listeners
+                                    arrivalInput.addEventListener('input', function() {
+                                    setDepartureMinDate();
+                                    });
+
+                                    departureInput.addEventListener('input', function() {
+                                    setArrivalMaxDate();
+                                    });
+                                </script>
 
                                 <!-- Select room -->
 
@@ -164,9 +173,8 @@
                                     <div class="select-room-content" id="room-container">
                                         <div class="room">
                                             <div class="room-content">
-                                                <span class="room-title">Room 1:</span>
-                                                <label class="booking-label" for="room-0">Choose the type of
-                                                    room</label>
+                                                <span class="room-title" >Room 1:</span>
+                                                <label class="booking-label" for="room-0">Choose the type of room</label>
                                                 <select name="room[]" id="room-0" required style="margin-top: 10px;">
                                                     <option value="1">Single (Max: 1 person)</option>
                                                     <option value="2">Double (Max: 2 people)</option>
@@ -177,19 +185,25 @@
                                                 </select>
                                             </div>
                                             <div class="room-control">
-                                                <button type="button" class="delete-btn" id="delete-btn"
-                                                    disabled>-Remove the room</button>
+                                                <button type="button" class="delete-btn" id="delete-btn" disabled>-Remove the room</button>
                                             </div>
-
+                                           
                                         </div>
-
+                                        
                                     </div>
                                     <div class="select-room-control">
                                         <button type="button" class="add-btn" id="add-btn">+ Add a room</button>
                                     </div>
                                 </div>
-
-
+                                
+                                <% if (messages && messages.length > 0) { %>
+                                    <div class="alert alert-danger">
+                                      <% messages.forEach(function(error) { %>
+                                        <p><%= error %></p>
+                                      <% }) %>
+                                    </div>
+                                  <% } %>
+                                
                                 <li>
                                     <button type="submit" class="btn btn-white">Submit</button>
                                 </li>
@@ -199,21 +213,21 @@
                     </form>
 
                     <script>
-                        const addBtn = document.getElementById('add-btn');
-                        const deleteBtn = document.getElementById('delete-btn');
+                        const addBtn=document.getElementById('add-btn');
+                        const deleteBtn=document.getElementById('delete-btn');
                         const roomContainer = document.getElementById('room-container');
-                        function addRoom() {
+                        function addRoom(){
                             let roomList = document.querySelectorAll('#room-container .room');
-                            let lastRoom = roomList[roomList.length - 1];
+                            let lastRoom = roomList[roomList.length-1];
                             let lastRoomId = lastRoom.querySelector('select').id;
-                            let newRoomId = 'room-' + (parseInt(lastRoomId.replace('room-', '')) + 1);
+                            let newRoomId = 'room-' + (parseInt(lastRoomId.replace('room-',''))+1);
                             let newRoom = document.createElement('div');
                             newRoom.classList.add('room');
-                            newRoom.innerHTML = `
+                            newRoom.innerHTML=`
                                 <div class="room-content">
-                                    <span class="room-title" >Room 1:</span>
-                                    <label class="booking-label" for="room-0">Choose the type of room</label>
-                                    <select name="room[]" id="room-0" required style="margin-top: 10px;">
+                                    <span class="room-title" >Room ${roomList.length+1}:</span>
+                                    <label class="booking-label" for="${newRoomId}">Choose the type of room</label>
+                                    <select name="room[]" id="${newRoomId}" required style="margin-top: 10px;">
                                         <option value="1">Single (Max: 1 person)</option>
                                         <option value="2">Double (Max: 2 people)</option>
                                         <option value="3">Triple (Max: 3 people)</option>
@@ -223,30 +237,35 @@
                                     </select>
                                 </div>
                                 <div class="room-control">
-                                    <button type="button" class="delete-btn" id="delete-btn" disabled>-Remove the room</button>
+                                    <button type="button" class="delete-btn">-Remove the room</button>
                                 </div>`;
                             roomContainer.appendChild(newRoom);
                             checkRoomCount();
                         }
-                        addBtn.addEventListener('click', addRoom);
+                        addBtn.addEventListener('click',addRoom);
 
-                        roomContainer.addEventListener('click', function removeRoom(e) {
-                            if (e.target && e.target.classList.contains('delete-btn')) {
-                                console.log(e.target.parentNode.parentNode)
+                        
+
+
+                        roomContainer.addEventListener('click' ,function removeRoom(e){
+                            if (e.target && e.target.classList.contains('delete-btn'))
+                            {
+                                console.log( e.target.parentNode.parentNode)
                                 e.target.parentNode.parentNode.remove();
                                 checkRoomCount();
                             }
                         });
+
                         function checkRoomCount() {
                             let roomList = document.querySelectorAll('#room-container .room');
                             if (roomList.length === 1) {
                                 roomList[0].querySelector('.delete-btn').setAttribute('disabled', true);
-                                roomList[0].querySelector('.room-title').textContent = 'Room 1:';
+                                roomList[0].querySelector('.room-title').textContent='Room 1:';
                             } else {
-                                roomList.forEach(function (room, index) {
-                                    let title = room.querySelector('.room-title');
-                                    title.textContent = `Room ${index + 1}:`;
-                                    room.querySelector('.delete-btn').removeAttribute('disabled');
+                                roomList.forEach(function(room, index) {
+                                let title = room.querySelector('.room-title');
+                                title.textContent = `Room ${index + 1}:`;
+                                room.querySelector('.delete-btn').removeAttribute('disabled');
                                 });
                             }
                         }

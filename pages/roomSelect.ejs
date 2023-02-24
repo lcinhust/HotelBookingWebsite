@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your choice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <section id="contact" class="contact">
+        <h2 align="center">Room Booking</h2>
+
+        <form method="post" action="/roomSelect">
+        <!--list of available rooms for each type-->
+        <% resData.forEach(type=>{ %>
+            <div class="container typeContainer" id="type<%= type.type %>">
+                <h3><%= type.nameofType %></h3>
+                <p class="numRoomsChosen">Choose <%= type.numRoomsChosen %> room(s)</p>
+                <% type.roomOfType.forEach(room => { %>
+                    <label for="<%= room %>" style="font-size: 20px; display: inline-flex; margin-right: 20px;">
+                    <input type="checkbox" id="<%= room %>" name="rooms[]" value="<%= room %>"
+                        style="float: left; margin-right: 5px; width: 20px; height: 20px; cursor: pointer;">
+                    <%= room %>
+                    </label>
+                <% }) %>
+                <p align="center">Price per room during your stay: <%= type.price %> $</p>
+            </div>
+        <% }) %>
+
+        <input type="hidden" name="arrivalDate" value="<%= resData[0].arrivalDate %>">
+        <input type="hidden" name="departureDate" value="<%= resData[0].departureDate %>">
+        <input type="hidden" name="userId" value="<%= resData[0].userId %>">
+        <% function totalPrice(typeArr){
+            return typeArr.reduce((total,type)=>{
+                total = total + type.numRoomsChosen*type.price;
+                return total;
+            },0)
+        } %>
+
+        <input type="hidden" name="totalPrice" value="<%= totalPrice(resData) %>">
+
+        <!-- modal-->
+        <br><br><br>
+        <div class="container">
+            <button class="nav-link book-btn" style="cursor: pointer;" data-modal-target="#modal" id="priceConfirm" type="button">Price Confirm</button>
+            <div class="modal" id="modal">
+                <div class="modal-header">
+                    <p>Total Purchase</p>
+                    <button data-close-button class="close-button" type="button">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <% function dateFormatting(dateType){
+                        let arr=dateType.split('-');
+                        let year=arr[0];
+                        let month=arr[1];
+                        let date=arr[2];
+                        const dateFormat = date.concat('/',month,'/',year)
+                        return dateFormat;
+                    } %>
+                    <h3><%= dateFormatting(resData[0].arrivalDate) %> - <%= dateFormatting(resData[0].departureDate)%></h3>
+                    <h3>Your bill</h3>
+                    <% function priceEachType(num,type){
+                        return num*type;
+                    } %>
+                    
+                    <br><br>
+                    <ul class="bill-list">
+                        <% resData.forEach(type => { %>
+                          <li class="bill-item">
+                            <span class="bill-item__name"><%= type.numRoomsChosen %> <%= type.nameofType %> room(s)</span>
+                            <span class="bill-item__price"><%= priceEachType(type.numRoomsChosen,type.price)%> $</span>
+                          </li>
+                        <% }) %>
+                    </ul>
+                    <br><br>
+                    <hr>
+                    <h3>The total price: <%= totalPrice(resData) %> $</h3>
+                    <br><br>
+                    <button type="submit" id="AcceptBtn" class="nav-link book-btn" style="cursor: pointer;">Accept</button>
+                    <button type="button" id="DeclineBtn" class="nav-link book-btn" style="cursor: pointer;">Decline</button>
+                </div>
+            </div>
+            <div id="overlay"></div>
+
+
+
+            <script>
+                const closeModalButtons = document.querySelectorAll('[data-close-button]')
+                const overlay = document.getElementById('overlay')
+
+                function limitCheckboxSelection(containerId, count) {
+                    var container = document.getElementById(containerId);
+                    var checkboxes = container.querySelectorAll('input[type="checkbox"]');
+                    var checkedCount = 0;
+
+                    checkboxes.forEach(function(checkbox) {
+                        checkbox.addEventListener('change', function(event) {
+                            if (event.target.checked) {
+                                checkedCount++;
+                            } else {
+                                checkedCount--;
+                            }
+                            if (checkedCount > count) {
+                                event.target.checked = false;
+                                checkedCount--;
+                            }
+                        });
+                    });
+                }
+                
+                //apply upper limit function for all types
+                <% resData.forEach(type=>{ %>
+                    limitCheckboxSelection("type<%= type.type %>", <%= type.numRoomsChosen %>);
+                <% }) %>
+
+              
+
+                const openModalButtons = document.querySelectorAll('#priceConfirm[data-modal-target]');
+                //lower limit
+                openModalButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const checkedCounts = [];
+                        const containers=document.querySelectorAll('.typeContainer');
+                        containers.forEach(container=>{
+                            const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+                            var checkedCount = 0;
+                            checkboxes.forEach(function(checkbox) {
+                                if (checkbox.checked) {
+                                checkedCount++;
+                                }
+                            });
+                            let count=parseInt(container.querySelector('.numRoomsChosen').textContent.replace(/\D/g, ''));  //the required number of rooms 
+                            if (checkedCount !== count) {
+                                alert(`Please select exactly ${count} rooms in room type ${container.querySelector('h3').textContent}`);
+                                return;
+                            } else {
+                                checkedCounts.push(checkedCount);
+                            }
+                        })
+                        //only when all rooms in every type are selected, modal shows up
+                        if (checkedCounts.length === containers.length) {
+                            const modal = document.querySelector(button.dataset.modalTarget);
+                            openModal(modal);
+                        }
+                       
+                    });
+                });
+
+
+                overlay.addEventListener('click', () => {
+                    const modals = document.querySelectorAll('.modal.active')
+                    modals.forEach(modal => {
+                        closeModal(modal)
+                    })
+                })
+
+                closeModalButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const modal = button.closest('.modal')
+                        closeModal(modal)
+                    })
+                })
+
+                function openModal(modal) {
+                    if (modal == null) return
+                    modal.classList.add('active')
+                    overlay.classList.add('active')
+                }
+
+                function closeModal(modal) {
+                    if (modal == null) return
+                    modal.classList.remove('active')
+                    overlay.classList.remove('active')
+                }
+
+                const DeclineBtn=document.getElementById('DeclineBtn');
+                DeclineBtn.addEventListener('click',(e)=>{
+                    window.location.href='/booking';
+                })
+            </script>
+            <style>
+                *, *::after, *::before {
+                    box-sizing: border-box;
+                }
+
+                .modal {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%) scale(0);
+                    transition: 200ms ease-in-out;
+                    border: 1px solid black;
+                    border-radius: 10px;
+                    z-index: 10;
+                    background-color: white;
+                    width: 500px;
+                    max-width: 80%;
+                }
+
+                .modal.active {
+                    transform: translate(-50%, -50%) scale(1);
+                }
+
+                .modal-header {
+                    padding: 10px 15px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid black;
+                }
+
+                .modal-header .title {
+                    font-size: 1.25rem;
+                    font-weight: bold;
+                }
+
+                .modal-header .close-button {
+                    cursor: pointer;
+                    border: none;
+                    outline: none;
+                    background: none;
+                    font-size: 1.25rem;
+                    font-weight: bold;
+                }
+
+                .modal-body {
+                    padding: 10px 15px;
+                }
+
+                #overlay {
+                    position: fixed;
+                    opacity: 0;
+                    transition: 200ms ease-in-out;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: rgba(0, 0, 0, .5);
+                    pointer-events: none;
+                }
+
+                #overlay.active {
+                    opacity: 1;
+                    pointer-events: all;
+                }
+
+                .bill-list {
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                    }
+
+                    .bill-item {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 12px;
+                    border-bottom: 1px solid #ccc;
+                    }
+
+                    .bill-item:last-of-type {
+                    border-bottom: none;
+                    }
+
+                    .bill-item__name {
+                    font-weight: bold;
+                    margin-right: 12px;
+                    font-size: 16px;
+                    }
+
+                    .bill-item__price {
+                    font-size: 18px;
+                    }
+
+
+            </style>
+        </div>
+
+        </form>
+    </section>
+</body>
+
+</html>

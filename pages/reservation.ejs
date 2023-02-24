@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="/admin.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <a class="logo" href="/index">Hong Phuong</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/admin/dashboard" class="nav-link">Waiting List</a></li>
+                <li class="nav-item"><a href="/admin/reservation" class="nav-link">Reservation</a></li>
+            </ul>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/admin/logout" class="nav-link book-btn">Logout</a></li>
+            </ul>
+        </nav>
+        </nav>
+    </div>
+    <section id="info" class="info">
+        <div class="container">
+            <h2>RESERVATION SEARCH</h2>
+        </div>
+    </section>
+    <!-- Tab content with title -->
+    <div align="center">
+        <form method="post" action="/admin/search">
+            <input type="search" name="search" placeholder="Id..." style="background-color: #eee;
+            border: 1px solid #000; padding: 12px 15px; margin: 8px 0;">
+            <button style="background-color: #455d58; color: white; 
+            border: none; padding: 12px; margin: 5px; cursor: pointer;
+            border-radius: 5px;">Search</button>
+        </form>
+    </div>
+    <% if (message) { %>
+        <div class="alert alert-info"><%= message %></div>
+    <% } %>
+    <% if(userReservation){ %>
+    <div class="container" align="center">
+        <p>id: <%= userReservation.id %></p>
+        <p>bid: <%= userReservation.booker_id %></p>
+        <p>name: <%= userReservation.name %></p>
+        <p>date in: <%= userReservation.date_in %></p>
+        <p>date out: <%= userReservation.date_out %></p>
+        <p>description: <%= userReservation.description %></p>
+        <p>status: <%= userReservation.status %></p>
+        <p>price: <%= userReservation.price %></p>
+        <p>payment date: <%= userReservation.payment_date %></p>
+        <a href="/admin/decline/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Decline</button></a>
+        <a href="/admin/checkin/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Check in</button></a>
+        <a href="/admin/checkout/<%=userReservation.id%>"><button class="btn book-btn" style="cursor: pointer;">Check out</button></a>
+    </div>
+    <% } %>
+    <script src="tab.js"></script>
+</body>
