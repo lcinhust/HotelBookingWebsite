@@ -73,6 +73,7 @@ create index email_idx on account(email);
 -- for further improvement of app we can add some other index to improve running speed
 
 -- SOME EVENT OR TRIGGER OR PROCEDURE OR FUNCTION
+SET GLOBAL log_bin_trust_function_creators = 1;
 
 DELIMITER $$
 CREATE FUNCTION calculatePrice(input_type_id int, arrivalDate DATE, departureDate DATE)
