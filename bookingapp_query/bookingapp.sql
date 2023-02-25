@@ -73,16 +73,64 @@ create index email_idx on account(email);
 -- for further improvement of app we can add some other index to improve running speed
 
 -- SOME EVENT OR TRIGGER OR PROCEDURE OR FUNCTION
+SET GLOBAL log_bin_trust_function_creators = 1;
 
+DELIMITER $$
+CREATE FUNCTION calculatePrice(input_type_id int, arrivalDate DATE, departureDate DATE)
+RETURNS DECIMAL(10,2)
+BEGIN
+    DECLARE totalPrice DECIMAL(10,2) DEFAULT 0;
+    DECLARE currentDate DATE DEFAULT arrivalDate;
+
+    WHILE currentDate < departureDate DO
+        SET @currentMonth = MONTH(currentDate);
+        SET @currentYear = YEAR(currentDate);
+
+        SELECT price_each_day INTO @price
+        FROM month_price
+        WHERE type_id = input_type_id AND month = @currentMonth AND year = @currentYear
+        limit 1;
+
+        IF @price IS NOT NULL THEN
+            SET totalPrice = totalPrice + @price;
+        END IF;
+
+        SET currentDate = ADDDATE(currentDate, INTERVAL 1 DAY);
+    END WHILE;
+
+    RETURN totalPrice;
+END$$
+DELIMITER ;
+
+-- this trigger is to update the date_out of reservation and payment when guest want to checkout early
+delimiter //
+create trigger early_checkout
+before update
+on reservation
+for each row
+begin
+if new.status = 'checkout' and old.date_out != curdate()
+then
+set new.date_out = curdate();
+update payment
+set total_price = (select sum(calculatePrice(r.type_id,old.date_in,curdate()))
+from reservation as re,room as r,room_reserved as rr
+where re.id = rr.reservation_id and rr.room_id = r.id and re.id = old.id)
+where reservation_id = old.id;
+end if;
+end//
+
+-- this event to auto decline the reservation when pass the date_in day
 CREATE EVENT update_status_event
 ON SCHEDULE EVERY 1 DAY
 DO
 
     UPDATE reservation
     SET status = 'decline'
-    WHERE status = 'accept' AND date_in < NOW();
+    WHERE status = 'accept' AND date_in < curdate();
     
 -- VIEWS
+
 -- these view can be applied for many future feature of the app
 
 create view vReservation as
@@ -96,6 +144,7 @@ from reservation as re, booker as b,payment as p,room_reserved as r, room
 where b.id = re.booker_id and re.id=p.reservation_id and r.reservation_id = re.id and room.id = r.room_id and re.status = 'pending';
     
 -- INSERT SOME NECESSARY FOR THE APP
+
     
 insert into type(name,capacity)
 values 
